@@ -1,0 +1,34 @@
+<%= form_tag(new_event_with_invite_path, :method => 'post') do %>
+	<h4>Friends</h4>
+	<% if @friends.count > 0 %>
+		<table class = 'table'>
+		<% @friends.each do |friend| %>
+			<tr>
+				<td><%= image_tag(friend.image_url, :class=>'span4')%></td>
+				<td><%= friend.first_name %></td>
+				<td><%= friend.email %></td>
+				<td><%= check_box_tag "invited[]", friend.id %></td>
+			</tr>
+		<%end%>
+		</table>
+		<div class = 'container'>
+			<div class = 'span9'>
+			</div>
+			<div class = 'span3'>
+			<p>
+			<% if @previous_page %>
+				<%= link_to "Previous 25", user_friends_path(:page => @page_num-1), :method => :post, :class => 'btn'%>
+			<% end %>		
+			
+			<% if @next_page %>
+				<%= link_to "Next 25", user_friends_path(:page => @page_num+1), :method => :post, :class => 'btn' %>
+			<% end %>
+			</p>
+				
+			<%= submit_tag("Invite Friends", :class => 'btn btn-primary') %>
+			</div>
+		</div>
+	<% else %>
+	<h2>You don't have any friends. Go make some.</h2>
+	<%end%>
+<% end %>

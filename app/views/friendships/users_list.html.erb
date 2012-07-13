@@ -1,0 +1,47 @@
+<%= form_tag(users_list_friendships_path, :method => :get) do %>
+	<h4>Search for a user:</h4>
+	<%= text_field_tag :name, params[:name]%>
+	<%= submit_tag "Search ", :name => nil %>
+<% end %>
+<% if @users != 35 %>
+	<table class = 'table'>
+		<tr>
+			<th>Name</th>
+			<th>User Email</th>
+		</tr>
+		<% @users.each do |user| %>
+			<% if user != current_user %>
+			<tr>
+				<% if user.image_url != nil %>
+					<td><%= image_tag(user.image_url, :class=>'span3')%></td>
+				<% else %>
+					<td><%= image_tag("default_fb_pic.jpg", :class=>'span3')%></td>
+				<% end %>
+				<td><%= user.first_name%> <%= user.last_name%></td>
+				<td><%= user.email%></td>
+				<td><%= button_to "Add Friend", 
+				friendships_path(:second_id => user.id),
+				:method => "post"%></td>
+			</tr>
+			<%end%>
+		<% end %>
+	</table>
+		<div class = 'container'>
+			<div class = 'span9'>
+			</div>
+			<div class = 'span3'>
+			<p>
+			<% if @previous_page %>
+				<%= link_to "Previous 25", users_list_friendships_path(:page => @page_num-1, :name => @name), 
+				:method => :get, :class => 'btn'%>
+			<% end %>		
+			
+			<% if @next_page %>
+				<%= link_to "Next 25", users_list_friendships_path(:page => @page_num+1, :name => @name), 
+				:method => :get, :class => 'btn' %>
+			<% end %>
+			</div>
+		</div>
+<% elsif @users == 35 %>
+	<h4>No users found.  Search again!</h4>
+<% end %>

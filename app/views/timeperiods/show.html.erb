@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Time:</b>
+  <%= @timeperiod.time %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @timeperiod.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_timeperiod_path(@timeperiod) %> |
+<%= link_to 'Back', timeperiods_path %>

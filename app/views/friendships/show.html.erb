@@ -1,0 +1,11 @@
+<% @friendships.each do |friendship| %>
+<div>
+	<tr>
+		<td><%= friendship.id %></td>
+		<td><%= friendship.user_id%></td>
+		<td><%= friendship.friend_id %></td>
+		<td><%= friendship.approved %></td>
+		<td><%= button_to "Delete", friendship_path(:id => friendship.id), :method => 'delete' %></td>
+	</tr>
+</div>
+<%end%>	

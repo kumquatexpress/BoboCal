@@ -1,0 +1,26 @@
+<h2>User's Events</h2>
+
+<table>
+  <tr>
+    <th>Starttime</th>
+    <th>Endtime</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @events.each do |event| %>
+  <tr>
+    <td><%= event.startTime %></td>
+    <td><%= event.endTime %></td>
+    <Td><%= event.calendar_ids %></Td>
+    <td><%= link_to 'Show', event %></td>
+    <td><%= link_to 'Edit', edit_event_path(event) %></td>
+    <td><%= button_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Event', new_event_path %>

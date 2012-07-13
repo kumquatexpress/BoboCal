@@ -1,0 +1,13 @@
+<% @friends.each do |friend| %>
+<div>
+	<%= friend[0].email %>
+	<p>
+	<%= button_to "Accept Request",
+	approve_friendships_path(:id => friend[1].id),
+	:method => "post" %>
+	<%= button_to "Decline Request",
+	ignore_friendships_path(:id => friend[1].id),
+	:method=>:post %>
+	</p>
+</div>
+<% end %>

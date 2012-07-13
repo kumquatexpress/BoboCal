@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @calendar.title %> : <%= @calendar.user.email %>
+</p>
+<p>
+	<b>Events:</b> <br />
+	<% @events.each do |event|%> 
+	<%= event.title %> <br/>
+	<% end %>
+</p>
+
+<%= link_to 'Edit', edit_calendar_path(@calendar) %> |
+<%= link_to 'Back', calendars_path %>
