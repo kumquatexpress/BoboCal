@@ -1,4 +1,13 @@
 class TimeperiodsController < ApplicationController
+  before_filter lambda{user_is_admin}, :except => [:new, :edit]
+  
+  def user_is_admin
+    unless current_user.admin
+      redirect_to new_timeperiod_path
+    end
+  end
+  
+  
   # GET /timeperiods
   # GET /timeperiods.json
   def index
@@ -35,6 +44,9 @@ class TimeperiodsController < ApplicationController
   # GET /timeperiods/1/edit
   def edit
     @timeperiod = Timeperiod.find(params[:id])
+    if @timeperiod.user_id != current_user.id
+      redirect_to events_path, :flash => {:warning => "Not yours to edit."}
+    end
   end
 
   # POST /timeperiods

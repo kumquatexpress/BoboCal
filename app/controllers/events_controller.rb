@@ -1,13 +1,13 @@
 class EventsController < ApplicationController
   # GET /events
   # GET /events.json
-  before_filter :authenticate_user!, :except =>
-  [:show, :index]
+  before_filter :authenticate_user!
   
   def index
     if user_signed_in?
-      @events = Event.where(:user_id => 
+      @my_events = Event.where(:user_id => 
       current_user.id)
+      @invited_events = current_user.invited_events
     else
       @events = Event.where(:user_id =>
       nil)
@@ -101,7 +101,10 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @calendar = Calendar.where(:user_id => 
     current_user.id)
-
+    unless @event.user_id
+      @event.user_id = current_user.id  
+    end
+    
     respond_to do |format|
       if @event.update_attributes(params[:event])
         format.html { redirect_to @event, :notice => 'Event was successfully updated.' }

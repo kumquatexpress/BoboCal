@@ -1,9 +1,15 @@
 <div>
-<h4>Hello, <%= @user.first_name %> <%=@user.last_name%>!</h4>
+<h4>Hello, <%= @user.name %>!</h4>
 </div>
 <div class = 'well container'>
-	<div class = 'span8'>
-		This is a span 8
+	<div class = 'span4'>
+		<%= image_tag(@user.image_url, :class => 'span8')%>
+	</div>
+	<div class = 'span4'>
+		<table class ='table'>
+			<tr>Your Pending Events:</tr>
+				<td></td>
+		</table>
 	</div>
 	<div class = 'span4'>
 		<h4>Unhappy?</h4> 

@@ -7,9 +7,10 @@ class Event < ActiveRecord::Base
   
   belongs_to :user
   
-  has_and_belongs_to_many :invited_users, :class_name => "User", :foreign_key => "invited_id" 
+  has_and_belongs_to_many :invited_users, :class_name => "User"
   
   attr_accessible :id, :calendar_ids, :endTime, :startTime, :title, :user_id, :invited_users
+  
   
   def fits?()
     cal = Calendar.find(self.calendar_ids)

@@ -6,22 +6,23 @@
 <% if @users != 35 %>
 	<table class = 'table'>
 		<tr>
+			<th class = 'span12'></th>
 			<th>Name</th>
-			<th>User Email</th>
+			<th>Email</th>
 		</tr>
 		<% @users.each do |user| %>
 			<% if user != current_user %>
 			<tr>
-				<% if user.image_url != nil %>
-					<td><%= image_tag(user.image_url, :class=>'span3')%></td>
-				<% else %>
-					<td><%= image_tag("default_fb_pic.jpg", :class=>'span3')%></td>
-				<% end %>
-				<td><%= user.first_name%> <%= user.last_name%></td>
+				<td><%= image_tag("default_fb_pic.jpg", :class=>'span3')%></td>
+				<td><%= user.name %></td>
 				<td><%= user.email%></td>
-				<td><%= button_to "Add Friend", 
-				friendships_path(:second_id => user.id),
-				:method => "post"%></td>
+				<% unless current_user.is_friends?(user) %>
+					<td><%= button_to "Add Friend", 
+					friendships_path(:second_id => user.id),
+					:method => "post"%></td>
+				<% else %>
+					<td>Y'all two are buddy buddy</td>
+				<% end %>
 			</tr>
 			<%end%>
 		<% end %>

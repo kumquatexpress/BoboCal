@@ -74,7 +74,14 @@ class FriendshipsController < ApplicationController
       @friends[counter] = temp
       counter += 1
     end
+    
+    respond_to do |format|
+      format.html
+      format.json {render :json => @friends}
+    end
     @friends
+    
+    
   end
   
   def users_list
@@ -109,6 +116,11 @@ class FriendshipsController < ApplicationController
     
     unless params[:name]
       @users = []
+    end
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @users }
     end
     
   end

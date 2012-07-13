@@ -17,9 +17,12 @@ class User < ActiveRecord::Base
   has_many :requested_friends, :class_name => "Friendship", :foreign_key => "friend_id", :conditions => "approved = false and ignored = false"
  
   has_many :calendars
+  
   has_many :events
+  has_and_belongs_to_many :invited_events, :class_name => "Event"
+  
   has_many :posts
-  has_many :timeperiod
+  has_many :timeperiods
  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
@@ -91,6 +94,11 @@ class User < ActiveRecord::Base
     direct_friends | inverse_friends
   end
   
+  def is_friends?(user)
+    return self.friends.include?(user)
+  end
+  
+  
   def self.new_with_session(params, session)
     super.tap do |user|
       if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
@@ -100,14 +108,14 @@ class User < ActiveRecord::Base
   end
   
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    user = User.where(:uid => auth.uid).first
+    email = auth.info.email    
+    unless email
+        email = auth.info.nickname + '@facebook.com'
+    end
     
     unless user
-      email = auth.info.email
       image_url = "http://graph.facebook.com/"+auth.uid+"/picture?type=large"
-      unless email
-        email = auth.info.nickname + '@facebook.com'
-      end
       user = User.create(:name => auth.info.name,
                            :provider => auth.provider,
                            :uid => auth.uid,
@@ -116,6 +124,14 @@ class User < ActiveRecord::Base
                            :password=>Devise.friendly_token[0,20]
                            )
     end
+    
+    if user.fbonly = true
+      user.name = auth.info.name
+      user.email = email
+      user.password = Devise.friendly_token[0,20]
+      user.save
+    end
+    
     user.fb_token = auth.credentials.token
     user.save
     
@@ -132,8 +148,9 @@ class User < ActiveRecord::Base
 
   def self.search(name)
     if name
-      find(:all, :order => ['case when lower(name) LIKE '+"'"+name+'%'+"' "'then 1 else 0 end DESC'],
-      :conditions => ['lower(name) LIKE ?', "%#{name}%"])
+      find(:all, :order => ['case when lower(name) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC,' +
+        'case when lower(email) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC'],
+      :conditions => ['lower(name) LIKE ? OR lower(email) LIKE ?', "%#{name}%", "%#{name}%"])
     else
       find(:all)
     end

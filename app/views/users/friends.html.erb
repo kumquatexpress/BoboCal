@@ -2,10 +2,13 @@
 	<h4>Friends</h4>
 	<% if @friends.count > 0 %>
 		<table class = 'table'>
+			<th></th>
+			<th>Name</th>
+			<th>Email</th>
 		<% @friends.each do |friend| %>
 			<tr>
 				<td><%= image_tag(friend.image_url, :class=>'span4')%></td>
-				<td><%= friend.first_name %></td>
+				<td><%= friend.name %></td>
 				<td><%= friend.email %></td>
 				<td><%= check_box_tag "invited[]", friend.id %></td>
 			</tr>
