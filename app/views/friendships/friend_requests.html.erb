@@ -1,14 +1,22 @@
+<center><h3>Friend Requests</h3></center>
+
+<table class = 'table'>
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th></th>
+		<th></th>
+	</tr>	
 <% @friends.each do |friend| %>
-<div>
-	<%= friend[0].email %>
-	<p>
-	<%= button_to "Accept Request",
-	approve_friendships_path(:id => friend[1].id), :class => 'btn',
-	:method => "post", :remote => true, :form_class => 'accept_friend_request' %>
-	
-	<%= button_to "Decline Request",
-	ignore_friendships_path(:id => friend[1].id), :class => 'btn',
-	:method=>:post, :remote => true, :form_class => 'declie_friend_request' %>
-	</p>
-</div>
+	<tr>
+		<td><%= image_tag(friend[0].image_url, :class => 'span5') %></td>
+		<td><%= friend[0].name %></td>
+		<td><%= button_to "Accept Request",
+			approve_friendships_path(:id => friend[1].id), :class => 'btn',
+			:method => "post", :remote => true, :form_class => 'accept_friend_request' %>
+			<%= button_to "Decline Request",
+			ignore_friendships_path(:id => friend[1].id), :class => 'btn',
+			:method=>:post, :remote => true, :form_class => 'decline_friend_request' %></td>
+	</tr>
 <% end %>
+</table>

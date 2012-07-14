@@ -22,10 +22,12 @@ $(document).ready(function(){
 	$('.accept_friend_request').bind('ajax:success', function(){
 		$(this).closest('tr').find('.btn').val('Gained a new friend');
 		$(this).closest('tr').find('.btn').addClass("btn btn-success");
+		$(this).fadeOut()
 	});
 	$('.decline_friend_request').bind('ajax:success', function(){
 		$(this).closest('tr').find('.btn').val('Rejected');
 		$(this).closest('tr').find('.btn').addClass("btn btn-danger");
+		$(this).fadeOut()
 	});
 	
 });

@@ -27,12 +27,13 @@
 				 else 
 				 	button_title = "Add Friend"
 				 	button_class = 'btn'
+				 	form_class = 'add_friend_button'
 				 end 
 				 %>
 				 
 				<td><%= button_to button_title, 
 					friendships_path(:second_id => user.id),
-					:method => "post", :class => button_class, :remote => true, :form_class => 'add_friend_button'%></td>
+					:method => "post", :class => button_class, :remote => true, :form_class => form_class %></td>
 			</tr>
 			<%end%>
 		<% end %>
