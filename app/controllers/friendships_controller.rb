@@ -68,8 +68,8 @@ class FriendshipsController < ApplicationController
     counter = 0
     @friendships.each do |friend|
       temp = Array.new
-      temp[0] = User.find(friend.user_id)
-      temp[1] = friend
+      temp[0] = User.find(friend.id)
+      temp[1] = Friendship.where(:friend_id => user.id, :user_id => friend.id).first
       
       @friends[counter] = temp
       counter += 1

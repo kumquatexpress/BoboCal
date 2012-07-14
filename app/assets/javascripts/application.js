@@ -14,4 +14,8 @@
 //= require jquery_ujs
 //= require_tree .
 
-   
+$(document).ready(function(){
+	$('.add_friend_button').bind('ajax:success', function(){
+		$(this).closest('tr').find('.btn').val("Pending friend request");
+	});
+});

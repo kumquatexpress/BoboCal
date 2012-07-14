@@ -13,9 +13,9 @@ class User < ActiveRecord::Base
   has_many :direct_friends, :through => :friendships, :conditions => "approved = true", :source => :friend
   has_many :inverse_friends, :through => :inverse_friendships, :conditions => "approved = true", :source => :user
   
-  has_many :pending_friends, :through => :friendships, :conditions => "approved = false", :foreign_key => "user_id", :source => :user
-  has_many :requested_friends, :class_name => "Friendship", :foreign_key => "friend_id", :conditions => "approved = false and ignored = false"
- 
+  has_many :pending_friends, :through => :friendships, :conditions => "approved = false and ignored = false", :foreign_key => "user_id", :source => :friend
+  has_many :requested_friends, :through => :inverse_friendships, :foreign_key => "friend_id", :conditions => "approved = false and ignored = false", :source => :user  
+  
   has_many :calendars
   
   has_many :events
@@ -89,7 +89,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  
   def friends
     direct_friends | inverse_friends
   end
@@ -98,6 +97,9 @@ class User < ActiveRecord::Base
     return self.friends.include?(user)
   end
   
+  def is_pending_friends?(user)
+    return self.pending_friends.include?(user) || self.requested_friends.include?(user)
+  end
   
   def self.new_with_session(params, session)
     super.tap do |user|

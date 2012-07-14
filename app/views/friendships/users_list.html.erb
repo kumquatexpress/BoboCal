@@ -1,7 +1,7 @@
 <%= form_tag(users_list_friendships_path, :method => :get) do %>
 	<h4>Search for a user:</h4>
 	<%= text_field_tag :name, params[:name]%>
-	<%= submit_tag "Search ", :name => nil %>
+	<%= submit_tag "Search ", :name => nil, :class => 'btn btn-success' %>
 <% end %>
 <% if @users != 35 %>
 	<table class = 'table'>
@@ -13,16 +13,23 @@
 		<% @users.each do |user| %>
 			<% if user != current_user %>
 			<tr>
-				<td><%= image_tag("default_fb_pic.jpg", :class=>'span3')%></td>
+				<td><%= image_tag(user.image_url, :class=>'span4')%></td>
 				<td><%= user.name %></td>
 				<td><%= user.email%></td>
-				<% unless current_user.is_friends?(user) %>
-					<td><%= button_to "Add Friend", 
+				
+				<% 
+				 if current_user.is_friends?(user)
+					button_title = "Y'all are buddy buddy"
+				 elsif current_user.is_pending_friends?(user)
+					button_title = "Pending friend request"
+				 else 
+				 	button_title = "Add Friend"
+				 end 
+				 %>
+				 
+				<td><%= button_to button_title, 
 					friendships_path(:second_id => user.id),
-					:method => "post"%></td>
-				<% else %>
-					<td>Y'all two are buddy buddy</td>
-				<% end %>
+					:method => "post", :class => 'btn', :remote => true, :form_class => 'add_friend_button'%></td>
 			</tr>
 			<%end%>
 		<% end %>

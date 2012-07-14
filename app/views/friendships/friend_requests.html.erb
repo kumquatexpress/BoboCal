@@ -4,10 +4,10 @@
 	<p>
 	<%= button_to "Accept Request",
 	approve_friendships_path(:id => friend[1].id),
-	:method => "post" %>
+	:method => "post", :remote => true %>
 	<%= button_to "Decline Request",
 	ignore_friendships_path(:id => friend[1].id),
-	:method=>:post %>
+	:method=>:post, :remote => true %>
 	</p>
 </div>
 <% end %>
