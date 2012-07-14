@@ -3,11 +3,12 @@
 	<%= friend[0].email %>
 	<p>
 	<%= button_to "Accept Request",
-	approve_friendships_path(:id => friend[1].id),
-	:method => "post", :remote => true %>
+	approve_friendships_path(:id => friend[1].id), :class => 'btn',
+	:method => "post", :remote => true, :form_class => 'accept_friend_request' %>
+	
 	<%= button_to "Decline Request",
-	ignore_friendships_path(:id => friend[1].id),
-	:method=>:post, :remote => true %>
+	ignore_friendships_path(:id => friend[1].id), :class => 'btn',
+	:method=>:post, :remote => true, :form_class => 'declie_friend_request' %>
 	</p>
 </div>
 <% end %>

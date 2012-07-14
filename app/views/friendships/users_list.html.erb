@@ -20,16 +20,19 @@
 				<% 
 				 if current_user.is_friends?(user)
 					button_title = "Y'all are buddy buddy"
+					button_class = 'btn btn-success'
 				 elsif current_user.is_pending_friends?(user)
 					button_title = "Pending friend request"
+					button_class = 'btn btn-warning'
 				 else 
 				 	button_title = "Add Friend"
+				 	button_class = 'btn'
 				 end 
 				 %>
 				 
 				<td><%= button_to button_title, 
 					friendships_path(:second_id => user.id),
-					:method => "post", :class => 'btn', :remote => true, :form_class => 'add_friend_button'%></td>
+					:method => "post", :class => button_class, :remote => true, :form_class => 'add_friend_button'%></td>
 			</tr>
 			<%end%>
 		<% end %>

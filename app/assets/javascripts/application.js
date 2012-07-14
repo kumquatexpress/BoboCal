@@ -17,5 +17,15 @@
 $(document).ready(function(){
 	$('.add_friend_button').bind('ajax:success', function(){
 		$(this).closest('tr').find('.btn').val("Pending friend request");
+		$(this).closest('tr').find('.btn').addClass("btn btn-warning");
 	});
+	$('.accept_friend_request').bind('ajax:success', function(){
+		$(this).closest('tr').find('.btn').val('Gained a new friend');
+		$(this).closest('tr').find('.btn').addClass("btn btn-success");
+	});
+	$('.decline_friend_request').bind('ajax:success', function(){
+		$(this).closest('tr').find('.btn').val('Rejected');
+		$(this).closest('tr').find('.btn').addClass("btn btn-danger");
+	});
+	
 });
