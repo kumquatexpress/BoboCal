@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120713185307) do
+ActiveRecord::Schema.define(:version => 20120715185440) do
 
   create_table "calendar_events", :force => true do |t|
     t.integer  "calendar_id"
@@ -56,9 +56,9 @@ ActiveRecord::Schema.define(:version => 20120713185307) do
   create_table "events", :force => true do |t|
     t.datetime "startTime"
     t.datetime "endTime"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.string   "title"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+    t.string   "title",        :default => "My New Event"
     t.integer  "calendar_ids"
     t.integer  "post_ids"
     t.integer  "user_id"

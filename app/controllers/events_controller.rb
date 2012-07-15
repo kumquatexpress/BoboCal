@@ -71,12 +71,11 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.json
   def new
-    @event = Event.new
-    @calendar = Calendar.where(:user_id => 
-    current_user.id)
+    @calendar = Calendar.all
+    @event = Event.new(params[:event])
+    @event.user_id = current_user.id
     @event.save
-
-
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @event }
