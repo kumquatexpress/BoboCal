@@ -1,4 +1,9 @@
-<h4> <%= @users.count%> Friends currently invited to this event:</h4>
+<h4> <%= @users.count%> 
+	<% if @users.count == 1 %> 
+		Friend
+	<% else %>
+		Friends 
+	<% end %> currently invited to this event:</h4>
 <div class = 'thumbnail'>
 	<% @users.each do |user| %>
 		<div class = 'thumbnails well'>
