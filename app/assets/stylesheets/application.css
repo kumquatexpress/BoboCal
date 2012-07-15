@@ -11,3 +11,5 @@
  *= require_self
  *= require_tree .
 */
+
+body { font-family: 'Simonetta', Arial, serif; font-weight: 400; }

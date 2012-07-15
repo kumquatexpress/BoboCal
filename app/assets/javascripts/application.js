@@ -28,13 +28,13 @@ $(document).ready(function(){
 	//event planning friend invite buttons
 	
 	$('.invite_friend_button').bind('ajax:success', function(textstatus, data, jqXHR){
-		$(this).closest('tr').find('.btn').val("Invited");
-		$(this).closest('tr').find('.btn').addClass("btn-success");
+		$(this).closest('tr').find('.btn').val("Uninvite Friend");
+		$(this).closest('tr').find('.btn').addClass("btn-danger");
 		$(this).removeClass('invite_friend_button').addClass('uninvite_friend_button');
 	});
 	$('.uninvite_friend_button').bind('ajax:success', function(textstatus, data){
 		$(this).closest('tr').find('.btn').val("Invite Friend");
-		$(this).closest('tr').find('.btn').removeClass('btn-success');
+		$(this).closest('tr').find('.btn').removeClass('btn-danger');
 		$(this).removeClass('uninvite_friend_button').addClass('invite_friend_button');
 	});
 });

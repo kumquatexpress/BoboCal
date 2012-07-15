@@ -159,5 +159,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.search_friends(name)
+    if name
+      
+    end
+  end
 
 end

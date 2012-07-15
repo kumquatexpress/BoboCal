@@ -48,7 +48,7 @@ class EventsController < ApplicationController
   end
   
   # POST /events/new/:invited
-  def with_invite
+  /#def with_invite
     @invited_array = Array.new
     counter = 0
     params[:invited].each do |id|
@@ -66,7 +66,7 @@ class EventsController < ApplicationController
       format.html # with_invite.html.erb
       format.json { render :json => @event }
     end   
-  end
+  end#/
 
   # GET /events/new
   # GET /events/new.json

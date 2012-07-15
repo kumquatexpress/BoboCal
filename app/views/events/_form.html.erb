@@ -12,8 +12,8 @@
   <% end %>
   <div>
   	Invited Friends:
-  	<% if @invited_array %>
-  		<% @invited_array.each do |friend| %>
+  	<% if @event.invited_users %>
+  		<% @event.invited_users.each do |friend| %>
   		  <%= friend.name %>
   		<% end %>
     <% else %>

@@ -1,6 +1,9 @@
-<% @users.each do |user| %>
-<div class = 'well'>
-<%= user.name %> <br/>
+<h4> <%= @users.count%> Friends currently invited to this event:</h4>
+<div class = 'thumbnail'>
+	<% @users.each do |user| %>
+		<div class = 'thumbnails well'>
+			<td><b><%= user.name %></b></td>
+			<td><%= image_tag(user.image_url, :class => 'span4')%></td>
+		</div>
+	<% end %>
 </div>
-<% end %>
-

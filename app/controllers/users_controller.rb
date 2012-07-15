@@ -11,6 +11,12 @@ class UsersController < ApplicationController
   def friends
     @users = []
     
+    if params[:name]
+      friends = User.search_friends(@name.downcase)
+    else 
+      friends = current_user.friends
+    end
+    
     if params[:event]
       @event = Event.find(params[:event])
       @users = @event.invited_users
@@ -19,8 +25,6 @@ class UsersController < ApplicationController
     @previous_page = true
     @next_page = true
     
-    @user = current_user
-    friends = @user.friends
     @totalnum = friends.count/25
     
     if params[:page].to_i() > 0
