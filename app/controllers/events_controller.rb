@@ -74,6 +74,7 @@ class EventsController < ApplicationController
     @event = Event.new
     @calendar = Calendar.where(:user_id => 
     current_user.id)
+    @event.save
 
 
     respond_to do |format|
