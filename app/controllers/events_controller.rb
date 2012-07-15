@@ -29,7 +29,24 @@ class EventsController < ApplicationController
       format.json { render :json => @event }
     end
   end
-
+  
+  def invite_friend
+    event = Event.find(params[:event])
+    if params[:path] == "true"
+      Event.add_invited_user(params[:event], params[:user])
+    else
+      Event.delete_invited_user(params[:event], params[:user])
+    end
+    
+    @users = event.invited_users
+    
+    respond_to do |format|
+      format.json {render :json => @users}
+      format.js { render :layout => false}
+    end
+        
+  end
+  
   # POST /events/new/:invited
   def with_invite
     @invited_array = Array.new

@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :zipcode, :city, :state,
   :first_name, :last_name, :provider, :uid, :image_url, :fbonly, :name
   # attr_accessible :title, :body
+  
   def set_default_picture
     user = self
       unless user.image_url

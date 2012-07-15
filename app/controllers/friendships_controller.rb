@@ -5,7 +5,7 @@ class FriendshipsController < ApplicationController
     @friendships = Friendship.all
   end
   
-  #GET /create
+  #POST 
   def create
     first_user = current_user
     second_user = User.find(params[:second_id])

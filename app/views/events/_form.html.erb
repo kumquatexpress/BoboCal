@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-  <div class = 'field'>
+  <div>
   	Invited Friends:
   	<% if @invited_array %>
   		<% @invited_array.each do |friend| %>
@@ -19,7 +19,7 @@
     <% else %>
       You haven't invited anyone to this event.
     <% end %>
-    <%= link_to "Invite more friends", user_friends_path, :class => 'btn' %>
+    <%= link_to "Invite more friends", user_friends_path(:event => @event.id), :class => 'btn', :method => 'post' %>
   </div>
 
 

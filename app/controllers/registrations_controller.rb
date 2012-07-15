@@ -2,7 +2,9 @@ class RegistrationsController < Devise::RegistrationsController
   prepend_view_path "app/views/devise"
   
   def create
-    super
+    super    
+    user = User.new(params[:user])
+    user.save
     user = User.where(:email => params[:user]['email']).first
     user.set_default_picture
   end

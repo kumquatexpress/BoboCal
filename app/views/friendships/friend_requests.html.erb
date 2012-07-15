@@ -13,10 +13,10 @@
 		<td><%= friend[0].name %></td>
 		<td><%= button_to "Accept Request",
 			approve_friendships_path(:id => friend[1].id), :class => 'btn',
-			:method => "post", :remote => true, :form_class => 'accept_friend_request' %>
+			:method => "post", :remote => true, :form_class => 'respond_friend_request' %>
 			<%= button_to "Decline Request",
 			ignore_friendships_path(:id => friend[1].id), :class => 'btn',
-			:method=>:post, :remote => true, :form_class => 'decline_friend_request' %></td>
+			:method=>:post, :remote => true, :form_class => 'respond_friend_request' %></td>
 	</tr>
 <% end %>
 </table>

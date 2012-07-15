@@ -1,8 +1,7 @@
 class CalendarsController < ApplicationController
   # GET /calendars
   # GET /calendars.json
-  before_filter :authenticate_user!, :except =>
-  [:show, :index]
+  before_filter :authenticate_user!
   
   def index
     if user_signed_in?

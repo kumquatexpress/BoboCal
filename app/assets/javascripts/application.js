@@ -15,19 +15,26 @@
 //= require_tree .
 
 $(document).ready(function(){
+	//user search add friend buttons
+	
 	$('.add_friend_button').bind('ajax:success', function(){
 		$(this).closest('tr').find('.btn').val("Pending friend request");
 		$(this).closest('tr').find('.btn').addClass("btn btn-warning");
 	});
-	$('.accept_friend_request').bind('ajax:success', function(){
-		$(this).closest('tr').find('.btn').val('Gained a new friend');
-		$(this).closest('tr').find('.btn').addClass("btn btn-success");
-		$(this).fadeOut()
+	$('.respond_friend_request').bind('ajax:success', function(){
+		$(this).closest('tr').find('.respond_friend_request').fadeOut();
 	});
-	$('.decline_friend_request').bind('ajax:success', function(){
-		$(this).closest('tr').find('.btn').val('Rejected');
-		$(this).closest('tr').find('.btn').addClass("btn btn-danger");
-		$(this).fadeOut()
-	});
+		
+	//event planning friend invite buttons
 	
+	$('.invite_friend_button').bind('ajax:success', function(textstatus, data, jqXHR){
+		$(this).closest('tr').find('.btn').val("Invited");
+		$(this).closest('tr').find('.btn').addClass("btn-success");
+		$(this).removeClass('invite_friend_button').addClass('uninvite_friend_button');
+	});
+	$('.uninvite_friend_button').bind('ajax:success', function(textstatus, data){
+		$(this).closest('tr').find('.btn').val("Invite Friend");
+		$(this).closest('tr').find('.btn').removeClass('btn-success');
+		$(this).removeClass('uninvite_friend_button').addClass('invite_friend_button');
+	});
 });

@@ -1,37 +1,63 @@
-<%= form_tag(new_event_with_invite_path, :method => 'post') do %>
-	<h4>Friends</h4>
-	<% if @friends.count > 0 %>
-		<table class = 'table'>
-			<th></th>
-			<th>Name</th>
-			<th>Email</th>
-		<% @friends.each do |friend| %>
-			<tr>
-				<td><%= image_tag(friend.image_url, :class=>'span4')%></td>
-				<td><%= friend.name %></td>
-				<td><%= friend.email %></td>
-				<td><%= check_box_tag "invited[]", friend.id %></td>
-			</tr>
-		<%end%>
-		</table>
-		<div class = 'container'>
-			<div class = 'span9'>
-			</div>
-			<div class = 'span3'>
-			<p>
-			<% if @previous_page %>
-				<%= link_to "Previous 25", user_friends_path(:page => @page_num-1), :method => :post, :class => 'btn'%>
-			<% end %>		
-			
-			<% if @next_page %>
-				<%= link_to "Next 25", user_friends_path(:page => @page_num+1), :method => :post, :class => 'btn' %>
-			<% end %>
-			</p>
+<div class = 'container'>
+	<div class = 'span9'>
+		<h4>Friends</h4>
+		<% if @friends.count > 0 %>
+			<table class = 'table'>
+				<th></th>
+				<th>Name</th>
+				<th>Email</th>
+			<% @friends.each do |friend| %>
+				<tr>
+					<td><%= image_tag(friend.image_url, :class=>'span4')%></td>
+					<td><%= friend.name %></td>
+					<td><%= friend.email %></td>
+					
+					<% 
+					if @event
+						 if @event.invited_users.include?(friend)
+						 	path = false
+							button_title = "Invited"
+							button_class = 'btn btn-success'
+							form_class = 'uninvite_friend_button'
+						else
+							path = true
+						 	button_title = "Invite Friend"
+						 	button_class = 'btn'
+						 	form_class = 'invite_friend_button'
+						 end 
+					else
+					 	path = true
+					 	button_title = "Invite Friend"
+					 	button_class = 'btn'
+					 	form_class = 'invite_friend_button'
+					end
+					 %>
+					 
+					<td><%= button_to button_title, invite_friend_events_path(:event => @event, :user =>friend.id,:path=>path),
+					:remote => true, :method => "get", :class => button_class, :form_class => form_class %></td>
+				</tr>
+			<%end%>
+			</table>
+			<div class = 'container'>
+				<div class = 'span9'>
+				</div>
+				<div class = 'span3'>
+				<p>
+				<% if @previous_page %>
+					<%= link_to "Previous 25", user_friends_path(:page => @page_num-1), :method => :post, :class => 'btn'%>
+				<% end %>		
 				
-			<%= submit_tag("Invite Friends", :class => 'btn btn-primary') %>
+				<% if @next_page %>
+					<%= link_to "Next 25", user_friends_path(:page => @page_num+1), :method => :post, :class => 'btn' %>
+				<% end %>
+				</p>
+				</div>
 			</div>
-		</div>
-	<% else %>
-	<h2>You don't have any friends. Go make some.</h2>
-	<%end%>
-<% end %>
+		<% else %>
+		<h2>You don't have any friends. Go make some.</h2>
+		<%end%>
+	</div>
+	<div class = 'span3' id = 'update-div'>
+		<%= render 'events/invite_list' %>
+	</div>
+</div>

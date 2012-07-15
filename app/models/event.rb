@@ -11,6 +11,21 @@ class Event < ActiveRecord::Base
   
   attr_accessible :id, :calendar_ids, :endTime, :startTime, :title, :user_id, :invited_users
   
+  def self.add_invited_user(event_id, user_id)
+    event = Event.find(event_id)
+    user = User.find(user_id)
+    unless event.invited_users.include?(user)
+      event.invited_users.push(user)
+      event.save
+    end      
+  end  
+  
+  def self.delete_invited_user(event_id, user_id)
+    event = Event.find(event_id)
+    user = User.find(user_id)
+    event.invited_users.delete(user)
+    event.save 
+  end
   
   def fits?()
     cal = Calendar.find(self.calendar_ids)

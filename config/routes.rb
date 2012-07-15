@@ -5,6 +5,7 @@ WebCal::Application.routes.draw do
   
   match 'users/profile/:id' => 'users#profile', :as=>:user_profile
   
+  match 'users/friends/:id' => 'users#friends', :as => :user_friends
   match 'users/friends' => 'users#friends', :as => :user_friends
   
   resources :friendships do
@@ -15,7 +16,11 @@ WebCal::Application.routes.draw do
   end
 
   match 'events/new/with_invite' => 'events#with_invite', :as => :new_event_with_invite
-  resources :events
+  resources :events do
+    collection do
+      get :invite_friend
+    end
+  end
 
   resources :posts
 
