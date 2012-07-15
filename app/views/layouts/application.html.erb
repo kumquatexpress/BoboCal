@@ -30,13 +30,14 @@ window.fbAsyncInit = function() {
         ref.parentNode.insertBefore(js, ref);
       }(document));
 </script>
+	<%= image_tag('BoboLogo.png', :class => 'span2')%>
 	<div class = 'navbar'>
 		<div class ='navbar-inner'>
 			<div class = 'container'>
 				<ul class= 'nav'>
-					<li><%= image_tag('BoboLogo.png', :class => 'span2')%></li>
 					<% if user_signed_in? %>
 			  			<li><h5>Signed in as <%= current_user.email %>. Not you?</h5><li>
+			  			<br/>
 			  			<li><%= button_to  "Sign out", destroy_user_session_path, :method => "delete", :class => 'btn btn-mini'%></li>
 			  			
 			  			<li><%=button_to "My Profile", user_profile_path(:id => current_user), :class=>'btn btn-mini'%></li>
