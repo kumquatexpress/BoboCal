@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
   
   def friends
+    @users = []
     
     if params[:event]
       @event = Event.find(params[:event])
