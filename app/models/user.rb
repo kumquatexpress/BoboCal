@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   devise :omniauthable
   require 'open-uri'
   require 'json'
+  require 'nokogiri'
  
   validate :first_name, :presence => true
   validate :last_name, :presence => true
