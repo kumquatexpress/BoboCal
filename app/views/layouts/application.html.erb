@@ -42,8 +42,18 @@ window.fbAsyncInit = function() {
 			  			<li><%=button_to "My Profile", user_profile_path(:id => current_user), :class=>'btn btn-mini'%></li>
 						<div><%= image_tag('TextLogo320100.png', :class => 'span2') %></div>
 					<% else %>
-					  <li><%= button_to "Sign up", new_user_registration_path, :class => 'btn' %> </li>
+					  <li><%= button_to "Sign up", new_user_registration_path, 
+					  :method => :get, :class => 'btn' %> </li>
+					  <li><h2>Or</h2></li>
 					  <li><%= button_to "Sign in", new_user_session_path, :class => 'btn' %> </li>
+					  <li>		  
+						  	<%- if devise_mapping.omniauthable? %>
+							  <%- resource_class.omniauth_providers.each do |provider| %>
+							    	<%= button_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider),
+							    	:class => 'btn btn-info'%>
+							  <% end -%>
+			  				<% end -%>
+		  			  </li>			    	
 					  <div><%= image_tag('TextLogo320100.png', :class => 'span2') %></div>
 					  
 					<% end %>
