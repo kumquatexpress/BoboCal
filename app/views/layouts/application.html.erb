@@ -36,12 +36,13 @@ window.fbAsyncInit = function() {
 			<div class = 'container'>
 				<ul class= 'nav'>
 					<% if user_signed_in? %>
-			  			<li><h5>Signed in as <%= current_user.email %>. Not you?</h5></li>
+			  			<h5>Signed in as <%= current_user.email %>. Not you?</h5>
+			  			<%= image_tag('TextLogo320100.png', :class => 'span2') %>	
 			  			<li><%= button_to  "Sign out", destroy_user_session_path, :method => "delete", :class => 'btn btn-mini'%></li>
 			  			
-			  			<li><%=button_to "My Profile", user_profile_path(:id => current_user), :class=>'btn btn-mini'%></li>
-						<div><%= image_tag('TextLogo320100.png', :class => 'span2') %></div>				
+			  			<li><%=button_to "My Profile", user_profile_path(:id => current_user), :class=>'btn btn-mini'%></li>			
 					<% else %>
+					
 					  <%= link_to "Sign up", new_user_registration_path, 
 					  :method => :get, :class => 'btn' %> or
 					  <%= link_to "Sign in", new_user_session_path, :class => 'btn' %>
@@ -84,6 +85,10 @@ window.fbAsyncInit = function() {
 				</div>
 		  	</div>
 			<div class = 'span10' >
+				<% if flash[:warning]%>
+					<div class = 'well'><h3><%= flash[:warning]%></h3></div>
+				<% end %>
+				
 				<div class = 'hero-unit'>
 					<div>							
 						<center>

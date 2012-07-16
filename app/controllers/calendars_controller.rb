@@ -1,20 +1,31 @@
 class CalendarsController < ApplicationController
   # GET /calendars
   # GET /calendars.json
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :check_correct_user!
+  
+  def check_correct_user!
+    if params[:id]
+      @calendar = Calendar.find(params[:id])
+      unless current_user.calendars.include?(@calendar)
+        flash[:warning] = "That doesn't belong to you..."
+        redirect_to calendars_path
+      end
+    end
+  end
   
   def index
-    if user_signed_in?
-      @calendars = Calendar.where(:user_id => 
-      current_user.id)
-    else
-      @calendars = Calendar.where(:user_id =>
-      nil)
-    end
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @calendars }
-    end
+    @month = (params[:month] || Time.zone.now.month).to_i
+    @year = (params[:year] || Time.zone.now.year).to_i
+
+    @shown_month = Date.civil(@year, @month)
+
+    @event_strips = Event.event_strips_for_month(@shown_month)
+
+    # To restrict what events are included in the result you can pass additional find options like this:
+    #
+    # @event_strips = Event.event_strips_for_month(@shown_month, :include => :some_relation, :conditions => 'some_relations.some_column = true')
+    #
+
   end
 
   # GET /calendars/1

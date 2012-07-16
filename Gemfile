@@ -12,6 +12,7 @@ gem 'thin'
 gem 'sinatra'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
+gem 'event-calendar', :require => 'event_calendar'
 
 gem 'json'
 

@@ -25,7 +25,8 @@ Devise.setup do |config|
                   
   require 'omniauth-google-oauth2'
   config.omniauth :google_oauth2, '929938420955.apps.googleusercontent.com', 'R0dgbTYRbvAHeLsJ_cq4uiXM',
-  { :access_type => "offline", :approval_prompt => "", :scope => 'calendar' }
+  { :access_type => "offline", :approval_prompt => "force", 
+    :scope => "userinfo.email,userinfo.profile,calendar,https://www.google.com/m8/feeds"}
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is

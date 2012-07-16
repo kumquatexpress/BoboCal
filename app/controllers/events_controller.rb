@@ -1,7 +1,17 @@
 class EventsController < ApplicationController
   # GET /events
   # GET /events.json
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :check_correct_user!
+  
+  def check_correct_user!
+    if params[:id]
+      @event = Event.find(params[:id])
+      unless @event.invited_users.include?(current_user)
+        flash[:warning] = "You're not invited to that event :("
+        redirect_to events_path
+      end
+    end
+  end
   
   def index
     if user_signed_in?
@@ -83,6 +93,7 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     @event = Event.find(params[:id])
+    
     @calendar = Calendar.where(:user_id => 
     current_user.id)
   end
@@ -95,7 +106,6 @@ class EventsController < ApplicationController
     @event.user_id = current_user.id
     
       respond_to do |format|
-        if @event.fits?
           if @event.save
             format.html { redirect_to @event, :notice => 'Calendar event was successfully created.' }
             format.json { render :json => @event, :status => :created, :location => @event }
@@ -103,11 +113,9 @@ class EventsController < ApplicationController
             format.html { redirect_to :notice => 'Conflicting Event Times'}
             format.json { render :json => @event.errors, :status => :unprocessable_entity }
           end
-        else
             format.html { redirect_to :notice => 'Conflicting Event Times'}
             format.json { render :json => @event.errors, :status => :unprocessable_entity }
-        end
-      end
+     end
   end
 
   # PUT /events/1

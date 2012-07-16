@@ -1,5 +1,7 @@
 class Event < ActiveRecord::Base
   validate :title, :presence => true
+  
+  has_event_calendar
 
   has_and_belongs_to_many :calendar
   has_and_belongs_to_many :post
@@ -19,19 +21,19 @@ class Event < ActiveRecord::Base
   before_validation :set_datetimes # convert accessors back to db format
 
   def get_datetimes
-    self.startTime ||= Time.now
-    self.endTime ||= Time.now  # if the published_at time is not set, set it to now
+    self.start_at ||= Time.now
+    self.end_at ||= Time.now  # if the published_at time is not set, set it to now
 
-    self.startDate ||= self.startTime.to_date.to_s(:db) # extract the date is yyyy-mm-dd format
-    self.startHour ||= "#{'%02d' % self.startTime.hour}:#{'%02d' % self.startTime.min}" # extract the time
+    self.startDate ||= self.start_at.to_date.to_s(:db) # extract the date is yyyy-mm-dd format
+    self.startHour ||= "#{'%02d' % self.start_at.hour}:#{'%02d' % self.start_at.min}" # extract the time
     
-    self.endDate ||= self.endTime.to_date.to_s(:db) # extract the date is yyyy-mm-dd format
-    self.endHour ||= "#{'%02d' % self.endTime.hour}:#{'%02d' % self.endTime.min}" # extract the time
+    self.endDate ||= self.end_at.to_date.to_s(:db) # extract the date is yyyy-mm-dd format
+    self.endHour ||= "#{'%02d' % self.end_at.hour}:#{'%02d' % self.end_at.min}" # extract the time
   end
 
   def set_datetimes
-    self.startTime = "#{self.startDate} #{self.startHour}:00" # convert the two fields back to db
-    self.endTime = "#{self.endDate} #{self.endHour}:00"
+    self.start_at = "#{self.startDate} #{self.startHour}:00" # convert the two fields back to db
+    self.end_at = "#{self.endDate} #{self.endHour}:00"
   end  
 
   #methods for adding invited users
@@ -50,23 +52,6 @@ class Event < ActiveRecord::Base
     user = User.find(user_id)
     event.invited_users.delete(user)
     event.save 
-  end
-  
-  def fits?()
-    cal = Calendar.find(self.calendar_ids)
-    cal.each do |c|
-      all_events =Event.find(c.event_ids)
-      all_events.each do |event|
-        if (self.startTime < event.startTime &&
-          self.endTime < event.startTime) ||
-          (self.startTime > event.endTime &&
-          self.endTime > event.endTime)
-        else
-          return false
-        end
-      end
-    end
-    return true
   end
   
   def find_calendar(calendar_id)

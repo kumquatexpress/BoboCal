@@ -1,6 +1,9 @@
 WebCal::Application.routes.draw do
   resources :timeperiods
 
+  match '/calendars(/:year(/:month))' => 'calendars#index', 
+  :as => :calendars, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+
   resources :calendars
   
   match 'users/profile/:id' => 'users#profile', :as=>:user_profile

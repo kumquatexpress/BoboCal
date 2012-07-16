@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120715185440) do
+ActiveRecord::Schema.define(:version => 20120716233252) do
 
   create_table "calendar_events", :force => true do |t|
     t.integer  "calendar_id"
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(:version => 20120715185440) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "events", :force => true do |t|
-    t.datetime "startTime"
-    t.datetime "endTime"
+    t.datetime "start_at"
+    t.datetime "end_at"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
     t.string   "title",        :default => "My New Event"
@@ -138,6 +138,8 @@ ActiveRecord::Schema.define(:version => 20120715185440) do
     t.string   "fb_token"
     t.boolean  "fbonly"
     t.boolean  "admin",                  :default => false
+    t.string   "refresh_token"
+    t.string   "token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

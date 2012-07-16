@@ -75,19 +75,19 @@ class User < ActiveRecord::Base
       
       friendship = Friendship.new
       friendship.make_new(self, tempuser, true)
-      
-      /#existing_friendship = Friendship.where(:user_id => self.id.to_s(), :friend_id => tempuser.id.to_s()).first
-      inverse_existing_friendship = Friendship.where(:friend_id => self.id.to_s(), :user_id => tempuser.id.to_s()).first
-      
-      friend_id = tempuser.id
-      
-      unless existing_friendship || inverse_existing_friendship || tempuser.id == self.id
-        friendship = Friendship.new(:user_id => self.id,
-                                         :friend_id => friend_id,
-                                         :approved => true)
-        friendship.save
-      end#/ 
     end
+  end
+  
+  def find_contacts
+    user = self
+    request_url = 'https://www.google.com/m8/feeds/contacts/default/full?access_token='+user.token
+    body = open(request_url).read
+    parsed_xml = Nokogiri::XML::Document.parse(body)    
+    
+    parsed_xml.css("entry title").each do |node|
+      logger.info node.text
+    end
+    
   end
   
   def friends
@@ -141,7 +141,31 @@ class User < ActiveRecord::Base
     user.delay.find_friends
     user
   end
-
+  
+  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+    data = access_token.info
+    tokens = access_token.credentials
+    logger.info access_token
+    
+    email = data.email  
+    
+    user = User.where(:email => email).first
+    unless user
+        user = User.create(:name => data.name,
+                     :provider => 'google',
+                     :email=> email,
+                     :password=>Devise.friendly_token[0,20]
+                     )
+        user.set_default_picture
+    end
+    user.refresh_token = tokens.refresh_token
+    user.token = tokens.token
+    user.save
+    
+    user.find_contacts
+    
+    user
+  end
   
   def has_requests?
     if self.requested_friends.count == 0
