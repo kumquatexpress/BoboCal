@@ -1,14 +1,18 @@
-<h4> <%= @event.invited_users.count%> 
-	<% if @event.invited_users.count == 1 %> 
-		Friend
-	<% else %>
-		Friends 
-	<% end %> currently invited to this event:</h4>
+<h4><% if @event %> 
+		<%= @event.invited_users.count%> 
+		<% if @event.invited_users.count == 1 %> 
+			Friend
+		<% else %>
+			Friends 
+		<% end %> currently invited to this event:</h4>
+	<% end %>
 <div class = 'thumbnail'>
-	<% @event.invited_users.each do |user| %>
-		<div class = 'thumbnails well'>
-			<td><b><%= user.name %></b></td>
-			<td><%= image_tag(user.image_url, :class => 'span4')%></td>
-		</div>
+	<% if @event %>
+		<% @event.invited_users.each do |user| %>
+			<div class = 'thumbnails well'>
+				<td><b><%= user.name %></b></td>
+				<td><%= image_tag(user.image_url, :class => 'span4')%></td>
+			</div>
+		<% end %>
 	<% end %>
 </div>
