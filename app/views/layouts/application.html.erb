@@ -90,6 +90,7 @@ window.fbAsyncInit = function() {
 				<div class = 'hero-unit'>
 					<div>							
 						<center>
+							<% if current_user%>
 								<% if @event %>
 									<p>Bobo is currently planning <%= @event.title %> <br/>				
 										<%= link_to 'Change of plans, cancel my event.', @event, 
@@ -104,6 +105,7 @@ window.fbAsyncInit = function() {
 									<%= button_to 'Enlist Bobo', new_event_path, :class => 'btn btn-primary', :method => 'get' %>
 									</p>
 								<% end %>
+							<% end %>
 						</center>	
 					</div>
 					<%= yield %>
