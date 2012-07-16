@@ -31,14 +31,12 @@ class EventsController < ApplicationController
   end
   
   def invite_friend
-    event = Event.find(params[:event])
+    @event = Event.find(params[:event])
     if params[:path] == "true"
       Event.add_invited_user(params[:event], params[:user])
     else
       Event.delete_invited_user(params[:event], params[:user])
     end
-    
-    @users = event.invited_users
     
     respond_to do |format|
       format.json {render :json => @users}

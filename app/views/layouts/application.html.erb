@@ -40,7 +40,7 @@ window.fbAsyncInit = function() {
 			  			<li><%= button_to  "Sign out", destroy_user_session_path, :method => "delete", :class => 'btn btn-mini'%></li>
 			  			
 			  			<li><%=button_to "My Profile", user_profile_path(:id => current_user), :class=>'btn btn-mini'%></li>
-						<div><%= image_tag('TextLogo320100.png', :class => 'span2') %></div>
+						<div><%= image_tag('TextLogo320100.png', :class => 'span2') %></div>				
 					<% else %>
 					  <li><%= button_to "Sign up", new_user_registration_path, 
 					  :method => :get, :class => 'btn' %> </li>
@@ -88,6 +88,24 @@ window.fbAsyncInit = function() {
 		  	</div>
 			<div class = 'span10' >
 				<div class = 'hero-unit'>
+					<div>							
+						<center>
+								<% if @event %>
+									<p>Bobo is currently planning <%= @event.title %> <br/>				
+										<%= link_to 'Change of plans, cancel my event.', @event, 
+										 {:style => 'color:#FFFFFF', :confirm => 'Are you sure you want to cancel ' +@event.title+'?', 
+										 :method => :delete, :class => 'btn btn-danger'} %>
+										 
+										<%= link_to 'Continue planning, Bobo', edit_event_path(@event),
+										{:style=>'color:#FFFFFF',:class => 'btn btn-inverse'}%>
+									</p>
+								<% else %>
+									<p>Bobo isn't planning an event right now!
+									<%= button_to 'Enlist Bobo', new_event_path, :class => 'btn btn-primary', :method => 'get' %>
+									</p>
+								<% end %>
+						</center>	
+					</div>
 					<%= yield %>
 				</div>
 			</div>

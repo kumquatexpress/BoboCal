@@ -16,6 +16,8 @@
 
 $(document).ready(function(){
 	//user search add friend buttons
+	$('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+	
 	
 	$('.add_friend_button').bind('ajax:success', function(){
 		$(this).closest('tr').find('.btn').val("Pending friend request");

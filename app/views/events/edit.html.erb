@@ -1,6 +1,21 @@
-<h2>Editing event</h2>
+<div class = 'container'>
+	<div class = 'span8'>
+		<%= render 'form' %>
+		<%= link_to 'Show', @event %> |
+		<%= link_to 'Back', events_path %>
+	</div>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>
+	<div class = 'span4'>
+		<div>
+			<%= link_to "Invite more friends! Or uninvite some less good friends!", 
+			user_friends_path(:event => @event.id), {:style=>'color:#FFFFFF;',
+			:class => 'btn btn-primary', :method => 'post'} %>
+		</div>
+		
+		<br/>
+		
+		<div id = 'update-div' style="height:540px;overflow:auto">
+			<%= render 'events/invite_list' %>
+		</div>
+	</div>
+</div>
