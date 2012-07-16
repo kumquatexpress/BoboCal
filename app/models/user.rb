@@ -141,6 +141,7 @@ class User < ActiveRecord::Base
     user.delay.find_friends
     user
   end
+
   
   def has_requests?
     if self.requested_friends.count == 0
