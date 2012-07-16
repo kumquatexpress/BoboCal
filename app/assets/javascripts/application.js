@@ -14,11 +14,7 @@
 //= require jquery_ujs
 //= require_tree .
 
-$(document).ready(function(){
-	//user search add friend buttons
-	$('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
-	
-	
+$(document).ready(function(){	
 	$('.add_friend_button').bind('ajax:success', function(){
 		$(this).closest('tr').find('.btn').val("Pending friend request");
 		$(this).closest('tr').find('.btn').addClass("btn btn-warning");
@@ -39,4 +35,6 @@ $(document).ready(function(){
 		$(this).closest('tr').find('.btn').removeClass('btn-warning');
 		$(this).removeClass('uninvite_friend_button').addClass('invite_friend_button');
 	});
+	//user search add friend buttons
+	$('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
 });
