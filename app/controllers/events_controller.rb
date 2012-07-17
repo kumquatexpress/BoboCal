@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   def check_correct_user!
     if params[:id]
       @event = Event.find(params[:id])
-      unless @event.invited_users.include?(current_user)
+      unless @event.invited_users.include?(current_user) || @event.user_id == current_user.id
         flash[:warning] = "You're not invited to that event :("
         redirect_to events_path
       end

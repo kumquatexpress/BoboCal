@@ -36,5 +36,12 @@ $(document).ready(function(){
 		$(this).removeClass('uninvite_friend_button').addClass('invite_friend_button');
 	});
 	//user search add friend buttons
+	
+	$("#flash-warning").fadeOut(2000);
+	
+	
+	
+	
+	
 	$('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
 });

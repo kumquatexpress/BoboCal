@@ -19,7 +19,7 @@ class CalendarsController < ApplicationController
 
     @shown_month = Date.civil(@year, @month)
 
-    @event_strips = Event.event_strips_for_month(@shown_month)
+    @event_strips = Event.event_strips_for_month(@shown_month, :conditions => ['user_id = ?', current_user.id])
 
     # To restrict what events are included in the result you can pass additional find options like this:
     #

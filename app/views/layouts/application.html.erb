@@ -86,7 +86,7 @@ window.fbAsyncInit = function() {
 		  	</div>
 			<div class = 'span10' >
 				<% if flash[:warning]%>
-					<div class = 'well'><h3><%= flash[:warning]%></h3></div>
+					<div class = 'well' id='flash-warning'><h3><%= flash[:warning]%></h3></div>
 				<% end %>
 				
 				<div class = 'hero-unit'>

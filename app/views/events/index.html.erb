@@ -18,8 +18,8 @@
 		  <tr>
 		  	<td><%= event.title %></td>
 		  	<td><%= User.find(event.user_id).name %></td>
-		    <td><%= event.startTime %></td>
-		    <td><%= event.endTime %></td>
+		    <td><%= event.start_at %></td>
+		    <td><%= event.end_at %></td>
 		    <Td><%= event.calendar_ids %></Td>
 		    <td><%= link_to 'Look at it', edit_event_path(event), :class => 'btn' %></td>
 		  </tr>
@@ -37,8 +37,8 @@
 		<% @my_events.each do |event| %>
 		<tr>
 		  	<td><%= event.title %></td>
-		    <td><%= event.startTime %></td>
-		    <td><%= event.endTime %></td>
+		    <td><%= event.start_at %></td>
+		    <td><%= event.end_at %></td>
 		    <td><%= link_to 'Fix it up', edit_event_path(event), :class => 'btn' %>
 		    <%= button_to 'Cancel this event', event, :confirm => 'Are you sure?', 
 		    :method => :delete, :class => 'btn btn-danger' %></td>
