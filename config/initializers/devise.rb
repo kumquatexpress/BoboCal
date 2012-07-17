@@ -25,7 +25,7 @@ Devise.setup do |config|
                   
   require 'omniauth-google-oauth2'
   config.omniauth :google_oauth2, '929938420955.apps.googleusercontent.com', 'R0dgbTYRbvAHeLsJ_cq4uiXM',
-  { :access_type => "offline", :approval_prompt => "force", 
+  { :access_type => "online", :approval_prompt => "", 
     :scope => "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"}
 
   # ==> Configuration for any authentication mechanism
@@ -186,7 +186,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :token_authenticatable
   # Defines name of the authentication token params key
-  # config.token_authentication_key = :auth_token
+  config.token_authentication_key = :auth_token
 
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
