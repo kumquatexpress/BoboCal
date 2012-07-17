@@ -15,6 +15,10 @@
 //= require_tree .
 
 $(document).ready(function(){	
+	
+	$("#flash-warning").fadeOut(2000).hide(2000)
+	
+		
 	$('.add_friend_button').bind('ajax:success', function(){
 		$(this).closest('tr').find('.btn').val("Pending friend request");
 		$(this).closest('tr').find('.btn').addClass("btn btn-warning");
@@ -35,13 +39,7 @@ $(document).ready(function(){
 		$(this).closest('tr').find('.btn').removeClass('btn-warning');
 		$(this).removeClass('uninvite_friend_button').addClass('invite_friend_button');
 	});
-	//user search add friend buttons
-	
-	$("#flash-warning").fadeOut(2000);
-	
-	
-	
-	
+	//user search add friend buttons	
 	
 	$('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
 });

@@ -17,8 +17,11 @@ module CalendarsHelper
 
   def event_calendar
     calendar event_calendar_options do |args|
-      event = args[:event]
-      %(<a href="/events/#{event.id}" title="#{h(event.title)}">#{h(event.title)}</a>)
+      event, day = args[:event], args[:day]
+      html = %(<a href="/events/#{event.id}" title="#{h(event.title)}">)
+      html << display_event_time(event, day)
+      html << %(#{h(event.title)}</a>)
+      html
     end
   end
 end
