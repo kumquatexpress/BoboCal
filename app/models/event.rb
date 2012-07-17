@@ -3,10 +3,10 @@ class Event < ActiveRecord::Base
   
   has_event_calendar
 
-  has_and_belongs_to_many :calendar
-  has_and_belongs_to_many :post
-  has_and_belongs_to_many :timeperiod
-  
+  has_and_belongs_to_many :calendars
+  has_and_belongs_to_many :posts
+  has_and_belongs_to_many :timeperiods
+    
   belongs_to :user
   
   has_and_belongs_to_many :invited_users, :class_name => "User"

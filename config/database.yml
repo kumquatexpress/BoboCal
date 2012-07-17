@@ -12,7 +12,7 @@ development:
   adapter: postgresql
   username: myapp
   host: localhost
-  password: GothicBoing0
+  password: newpassword1
   database: WebCal_dev
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -21,12 +21,12 @@ test:
   adapter: postgresql
   username: myapp
   host: localhost
-  password: GothicBoing0
+  password: newpassword1
   database: WebCal_test
 
 production:
   adapter: postgresql
   username: myapp
   host: localhost
-  password: GothicBoing0
+  password: newpassword1
   database: WebCal_production

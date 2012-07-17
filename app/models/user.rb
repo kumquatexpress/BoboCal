@@ -88,6 +88,7 @@ class User < ActiveRecord::Base
     
     parsedjson["items"].each do |item|
       calendar_types.push(item["id"])
+      logger.info id
     end
     
     calendar_types.each do |cal|
