@@ -11,8 +11,8 @@ class Event < ActiveRecord::Base
   
   has_and_belongs_to_many :invited_users, :class_name => "User"
   
-  attr_accessible :id, :calendar_ids, :endTime, :startTime, :title, :user_id, :invited_users,
-  :startDate, :startHour, :endDate, :endHour
+  attr_accessible :id, :calendar_ids, :end_at, :start_at, :title, :user_id, :invited_users,
+  :startDate, :startHour, :endDate, :endHour, :google_id
   
   attr_accessor :startDate, :startHour, :endDate, :endHour
   

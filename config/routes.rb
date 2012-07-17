@@ -17,8 +17,7 @@ WebCal::Application.routes.draw do
 		post :approve, :ignore, :users_list
   	end
   end
-
-  match 'events/new/with_invite' => 'events#with_invite', :as => :new_event_with_invite
+  
   resources :events do
     collection do
       get :invite_friend

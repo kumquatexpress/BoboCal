@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120716233252) do
+ActiveRecord::Schema.define(:version => 20120717040426) do
 
   create_table "calendar_events", :force => true do |t|
     t.integer  "calendar_id"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20120716233252) do
     t.integer  "post_ids"
     t.integer  "user_id"
     t.integer  "invited_ids"
+    t.string   "google_id"
   end
 
   create_table "events_posts", :id => false, :force => true do |t|

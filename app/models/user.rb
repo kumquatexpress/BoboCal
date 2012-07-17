@@ -3,8 +3,7 @@ class User < ActiveRecord::Base
   devise :omniauthable
   require 'open-uri'
   require 'json'
-  require 'nokogiri'
- 
+  
   validate :first_name, :presence => true
   validate :last_name, :presence => true
 
@@ -79,16 +78,40 @@ class User < ActiveRecord::Base
     end
   end
   
-  def find_contacts
+  def find_events
     user = self
-    request_url = 'https://www.google.com/m8/feeds/contacts/default/full?access_token='+user.token
+    request_url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList?access_token='+user.token
     body = open(request_url).read
-    parsed_xml = Nokogiri::XML::Document.parse(body)    
+    parsedjson = JSON(body)
     
-    parsed_xml.css("entry title").each do |node|
-      logger.info node.text
+    calendar_types = Array.new
+    
+    parsedjson["items"].each do |item|
+      calendar_types.push(item["id"])
     end
     
+    calendar_types.each do |cal|
+      request_url = 'https://www.googleapis.com/calendar/v3/calendars/'+cal+'/events?access_token='+user.token
+      body = open(request_url).read
+      parsedjson = JSON(body)
+      
+      if parsedjson["items"]
+        parsedjson["items"].each do |event|          
+          unless Event.where(:google_id => event["id"]).first
+            if event["start"] && event["end"]
+              unless Time.parse(event["end"]["dateTime"].to_s) < Time.now
+                new_event = Event.new(:start_at => event["start"]["dateTime"],
+                          :title => event["summary"],
+                          :end_at => event["end"]["dateTime"],
+                          :google_id => event["id"])
+                new_event.user_id = user.id
+                new_event.save
+              end
+            end
+          end
+        end
+      end
+    end
   end
   
   def friends
@@ -163,7 +186,7 @@ class User < ActiveRecord::Base
     user.token = tokens.token
     user.save
     
-    user.find_contacts
+    user.find_events
     
     user
   end
