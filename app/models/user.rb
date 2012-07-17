@@ -98,16 +98,14 @@ class User < ActiveRecord::Base
       if parsedjson["items"]
         parsedjson["items"].each do |event|          
           unless Event.where(:google_id => event["id"]).first
-            if event["start"] && event["end"]
-              if event["end"]["dateTime"] != ""
-                unless Time.parse(event["end"]["dateTime"].to_s) < Time.now
-                  new_event = Event.new(:start_at => event["start"]["dateTime"],
-                            :title => event["summary"],
-                            :end_at => event["end"]["dateTime"],
-                            :google_id => event["id"])
-                  new_event.user_id = user.id
-                  new_event.save
-                end
+            if event["start"] && event["end"] && event["start"]["dateTime"] && event["end"]["dateTime"]
+              unless Time.parse(event["end"]["dateTime"].to_s) < Time.now
+                new_event = Event.new(:start_at => event["start"]["dateTime"],
+                          :title => event["summary"],
+                          :end_at => event["end"]["dateTime"],
+                          :google_id => event["id"])
+                new_event.user_id = user.id
+                new_event.save
               end
             end
           end
