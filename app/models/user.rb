@@ -92,7 +92,9 @@ class User < ActiveRecord::Base
     
     calendar_types.each do |cal|
       request_url = 'https://www.googleapis.com/calendar/v3/calendars/'+cal+'/events?access_token='+user.token
-      body = open(request_url).read
+      logger.info request_url
+      
+      body = open(request_url).read      
       parsedjson = JSON(body)
       
       if parsedjson["items"]
