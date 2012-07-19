@@ -14,11 +14,18 @@
 //= require jquery_ujs
 //= require_tree .
 
-$(document).ready(function(){	
+$(document).ready(function(){			
 	
-	$("#flash-warning").fadeOut(2000).hide(2000)
+	$("#facebook-import").qtip();
+	$("#facebook-import").bind('ajax:success', function(){
+		alert("asdf");
+		$(this).val("Loading...");
+	});
 	
-		
+	$("#google-import").qtip();
+	
+	$("#flash-warning").fadeOut(2000).hide(2000);	
+	
 	$('.add_friend_button').bind('ajax:success', function(){
 		$(this).closest('tr').find('.btn').val("Pending friend request");
 		$(this).closest('tr').find('.btn').addClass("btn btn-warning");

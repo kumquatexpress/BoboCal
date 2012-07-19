@@ -61,6 +61,7 @@ window.fbAsyncInit = function() {
 			  				friend_requests_friendships_path , :method => "get" %></li>
 			    		<% end %>
 		  			<% end %>
+		  			
   			</div>
   		</div>
   	</div>
@@ -69,13 +70,11 @@ window.fbAsyncInit = function() {
 	  		<div class = 'span2'>
 		  		<div class = 'well sidebar-nav'>
 					<ul class = 'nav nav-list'>
-						<li class = 'nav-header'>Manager Menu</li>
+						<li class = 'nav-header'>Bobo Manager</li>
 						<li class = 'divider'></li>
 						<li><%= link_to "Users", users_list_friendships_path, :method => "get", :class => 'btn' %></li>
 						</br>
 						<li><%= link_to "Friends", user_friends_path, :method => 'get', :class => 'btn' %></li>
-						</br>
-						<li><%= link_to "Posts", posts_path, :method => 'get', :class => 'btn' %></li>
 						</br>
 						<li><%= link_to "Events", events_path, :method => 'get', :class => 'btn' %></li>
 						</br>

@@ -1,14 +1,16 @@
+<br/>
+	<h4><%= link_to "Your Friends", user_find_friends_path(:user => current_user.id),
+		:class => 'zocial facebook', :method => :post, :id => 'facebook-import', 
+		:title => "Import Facebook Friends", :remote => true  %></h4>
 <p>
-<%= form_tag(users_list_friendships_path, :method => :get) do %>
-<h4>Search for a user:</h4>
-<%= text_field_tag :name, params[:name]%>
-<%= submit_tag "Search ", :name => nil, :class => 'btn btn-success' %>
-<% end %>
+	<%= form_tag(users_list_friendships_path, :method => :get) do %>
+	<%= text_field_tag :name, params[:name]%>
+	<%= submit_tag "Search for a friend", :name => nil, :class => 'btn btn-success' %>
+	<% end %>
 </p>	
 
 <div class = 'container'>
 	<div class = 'span8'>
-		<h4>Friends</h4>
 		<%= render 'friends' %>
 	</div>
 	<div class = 'span4' id = 'update-div' style = "height:540px;overflow:auto">

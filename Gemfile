@@ -4,6 +4,8 @@ gem 'rails', '3.2.3'
 gem 'devise','2.0.4'
 gem 'pg'
 
+gem 'koala'
+
 gem 'delayed_job_active_record'
 
 gem 'thin'

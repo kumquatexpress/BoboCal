@@ -7,8 +7,8 @@ WebCal::Application.routes.draw do
   resources :calendars
   
   match 'users/profile/:id' => 'users#profile', :as=>:user_profile
-  
-  match 'users/friends/:id' => 'users#friends', :as => :user_friends
+  match 'users/find_friends' => 'users#find_friends', :as => :user_find_friends
+  match 'users/find_events' => 'users#find_events', :as => :user_find_events
   match 'users/friends' => 'users#friends', :as => :user_friends
   
   resources :friendships do
@@ -78,7 +78,7 @@ WebCal::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'users#friends' 
+  root :to => 'friendships#users_list' 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

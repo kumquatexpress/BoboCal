@@ -47,5 +47,17 @@ class UsersController < ApplicationController
     
   end
   
+  #POST /find_friends
+  def find_friends
+    user = User.find(params[:user])
+    user.delay.find_friends
+  end
+  #POST /find_events
+  def find_events
+    user = User.find(params[:user])
+    user.delay.find_events
+  end
+  
+  
 
 end

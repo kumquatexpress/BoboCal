@@ -1,4 +1,8 @@
-<center><h3>Your Event Headquarters</h3></center> <Br/>
+<center><h4><%= link_to "Your Event Headquarters", user_find_events_path(:user => current_user.id),
+		:class => 'zocial googleplus', :method => :post, :id => 'google-import', 
+		:title => "Import Google Events"  %></h4><center>
+
+		<br/>
 
 <div class = 'container'>
 	<div class = 'span6'>
