@@ -40,8 +40,40 @@ class EventsController < ApplicationController
     end
   end
   
-  def invite_friend
-    @event = Event.find(params[:event])
+  def invite_friend  
+    if params[:name]
+      friends = User.search_friends(@name.downcase)
+    else 
+      friends = current_user.friends
+    end
+    
+    if params[:event]
+      @event = Event.find(params[:event])
+    end
+    
+    @previous_page = true
+    @next_page = true
+    
+    @totalnum = friends.count/25
+    
+    if params[:page].to_i() > 0
+      @page_num = params[:page].to_i()
+    else
+      @page_num = 0
+      @previous_page = false
+    end
+        
+    if @page_num >= @totalnum
+      @page_num = @totalnum
+      @next_page = false
+    end
+    
+    if friends.first
+      @friends = friends[@page_num*25..(@page_num+1)*24] 
+    else
+      @friends = []
+    end
+    
     if params[:path] == "true"
       Event.add_invited_user(params[:event], params[:user])
     else
@@ -49,7 +81,7 @@ class EventsController < ApplicationController
     end
     
     respond_to do |format|
-      format.json {render :json => @users}
+      format.json {render :json => @event.invited_users}
       format.js { render :layout => false}
     end
         

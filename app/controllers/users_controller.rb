@@ -19,7 +19,6 @@ class UsersController < ApplicationController
     
     if params[:event]
       @event = Event.find(params[:event])
-      @users = @event.invited_users
     end
     
     @previous_page = true

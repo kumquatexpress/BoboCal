@@ -26,7 +26,7 @@ Devise.setup do |config|
   require 'omniauth-google-oauth2'
   config.omniauth :google_oauth2, '929938420955.apps.googleusercontent.com', 'R0dgbTYRbvAHeLsJ_cq4uiXM',
   { :access_type => "online", :approval_prompt => "", 
-    :scope => "https://www.googleapis.com/auth/userinfo.emaipl https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"}
+    :scope => "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"}
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is

@@ -1,1 +1,3 @@
-$('#update-div').html("<%= escape_javascript(render(:partial => "invite_list", :locals => {:users => @users})) %>");
+$('#friend-div').html("<%= escape_javascript(render(:partial=>"users/friends")) %>");
+$('#update-div').html("<%= escape_javascript(render(:partial => "invite_list")) %>");
+
