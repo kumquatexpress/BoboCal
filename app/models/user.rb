@@ -31,8 +31,15 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :zipcode, :city, :state,
-  :first_name, :last_name, :provider, :uid, :image_url, :fbonly, :name
+  :first_name, :last_name, :provider, :uid, :image_url, :fbonly, :name, :is_fb?, :is_google?, :token
   # attr_accessible :title, :body
+  def is_fb?
+    return self.uid != nil
+  end
+  
+  def is_google?
+    return self.token != nil
+  end
   
   def set_default_picture
     user = self
@@ -42,12 +49,12 @@ class User < ActiveRecord::Base
       user.save
   end  
   
-  def find_friends
+  def find_friends  
     user = self
     token = user.fb_token
     id = user.uid
     
-    request_url = 'https://graph.facebook.com/' + id +'/friends?access_token='+ token
+    request_url = 'https://graph.facebook.com/'+id+'/friends?access_token='+token
     logger.info request_url
     
     body = open(request_url).read
@@ -105,7 +112,7 @@ class User < ActiveRecord::Base
       
       if parsedjson["items"]
         parsedjson["items"].each do |event|          
-          unless Event.where(:google_id => event["id"]).first
+          unless Event.where(:google_id => event["id"], :user_id => user.id).first
             if event["start"] && event["end"] && event["start"]["dateTime"] && event["end"]["dateTime"]
               unless Time.parse(event["end"]["dateTime"].to_s) < Time.now
                 new_event = Event.new(:start_at => event["start"]["dateTime"],
@@ -115,7 +122,7 @@ class User < ActiveRecord::Base
                 new_event.user_id = user.id
                 new_event.save
               end
-            end
+           end
           end
         end
       end
@@ -142,8 +149,20 @@ class User < ActiveRecord::Base
     end
   end
   
-  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
+  def self.find_for_facebook_oauth(auth, signed_in_resource)
     user = User.where(:uid => auth.uid).first
+    
+    #for google users who are already logged in 
+    if signed_in_resource
+      user = signed_in_resource
+      user.uid = auth.uid
+      user.fb_token = auth.credentials.token
+      user.save
+    
+      user.delay.find_friends
+      return user
+    end    
+    
     email = auth.info.email    
     unless email
         email = auth.info.nickname + '@facebook.com'
@@ -167,6 +186,8 @@ class User < ActiveRecord::Base
       user.save
     end
     
+    #for logging in with fb after using google
+    
     user.fb_token = auth.credentials.token
     user.save
     
@@ -174,7 +195,7 @@ class User < ActiveRecord::Base
     user
   end
   
-  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+  def self.find_for_google_oauth2(access_token, signed_in_resource)
     data = access_token.info
     tokens = access_token.credentials
     logger.info access_token
@@ -182,6 +203,19 @@ class User < ActiveRecord::Base
     email = data.email  
     
     user = User.where(:email => email).first
+    
+    #for facebook users who are already logged in 
+    if signed_in_resource
+      user = signed_in_resource
+      user.refresh_token = tokens.refresh_token
+      user.token = tokens.token
+      user.save
+      
+      user.find_events
+      
+      return user
+    end    
+    
     unless user
         user = User.create(:name => data.name,
                      :provider => 'google',
@@ -195,7 +229,7 @@ class User < ActiveRecord::Base
     user.save
     
     user.find_events
-    
+        
     user
   end
   

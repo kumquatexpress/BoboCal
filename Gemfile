@@ -5,7 +5,8 @@ gem 'devise','2.0.4'
 gem 'pg'
 
 gem 'koala'
-
+gem 'google-api-client'  
+  
 gem 'delayed_job_active_record'
 
 gem 'thin'

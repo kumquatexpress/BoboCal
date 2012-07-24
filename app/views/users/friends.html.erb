@@ -1,6 +1,6 @@
-	<h4><%= link_to "Your Friends", user_find_friends_path(:user => current_user.id),
+	<h4><%= link_to "Your Friends", omniauth_authorize_path(current_user, 'facebook'),
 		:class => 'zocial facebook', :method => :post, :id => 'facebook-import', 
-		:title => "Import Facebook Friends", :remote => true  %></h4>
+		:title => "Import Facebook Friends" %></h4>
 <p>
 	<%= form_tag(users_list_friendships_path, :method => :get) do %>
 	<%= text_field_tag :name, params[:name]%>
@@ -12,7 +12,7 @@
 	<div class = 'span8' id = 'friend-div'>
 		<%= render 'friends' %>
 	</div>
-	<div class = 'span4' id = 'update-div' style = "height:540px;overflow:auto">
+	<div class = 'span4' id = 'update-div' style = "height:500px;overflow:auto">
 		<%= render 'events/invite_list' %>
 	</div>
 </div>

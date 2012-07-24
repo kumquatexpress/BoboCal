@@ -139,6 +139,10 @@ class EventsController < ApplicationController
     
       respond_to do |format|
           if @event.save
+          
+            #call google api client to save event
+            Event.save_to_google_calendar(@event.id)
+            
             format.html { redirect_to @event, :notice => 'Calendar event was successfully created.' }
             format.json { render :json => @event, :status => :created, :location => @event }
           else
@@ -162,6 +166,8 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.update_attributes(params[:event])
+          Event.save_to_google_calendar(@event.id)
+      
         format.html { redirect_to @event, :notice => 'Event was successfully updated.' }
         format.json { head :no_content }
       else

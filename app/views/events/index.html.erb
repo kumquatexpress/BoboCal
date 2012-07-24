@@ -1,11 +1,11 @@
-<center><h4><%= link_to "Your Event Headquarters", user_find_events_path(:user => current_user.id),
+<center><h4><%= link_to "Your Event Headquarters", omniauth_authorize_path(current_user, 'google_oauth2'),
 		:class => 'zocial googleplus', :method => :post, :id => 'google-import', 
 		:title => "Import Google Events"  %></h4><center>
 
 		<br/>
 
 <div class = 'container'>
-	<div class = 'span6'>
+	<div class = 'span6' style = "height:500px;overflow=auto">
 		<table class = 'table'>
 			<h4>Events you've been invited to:</h4>
 		  <tr>
@@ -30,7 +30,7 @@
 		<% end %>
 		</table>
 	</div>
-	<div class='span6'>
+	<div class='span6' style="height:500px;overflow=auto">
 		<table class ='table'>
 			<h4>Your Events:</h4>
 		<tr>
