@@ -5,6 +5,7 @@ gem 'devise','2.0.4'
 gem 'pg'
 
 gem 'koala'
+gem 'twitter-bootstrap-rails'
 gem 'google-api-client'  
   
 gem 'delayed_job_active_record'

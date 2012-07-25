@@ -30,8 +30,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :zipcode, :city, :state,
-  :first_name, :last_name, :provider, :uid, :image_url, :fbonly, :name, :is_fb?, :is_google?, :token
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :zipcode, :city, :state, :friends,
+  :first_name, :last_name, :provider, :uid, :image_url, :fbonly, :name, :google_id, :is_fb?, :is_google?, :token
   # attr_accessible :title, :body
   def is_fb?
     return self.uid != nil
@@ -152,16 +152,23 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(auth, signed_in_resource)
     user = User.where(:uid => auth.uid).first
     
-    #for google users who are already logged in 
-    if signed_in_resource
-      user = signed_in_resource
-      user.uid = auth.uid
-      user.fb_token = auth.credentials.token
-      user.save
-    
-      user.delay.find_friends
-      return user
-    end    
+        #for google users who are already logged in 
+        if signed_in_resource
+          user = signed_in_resource
+          user.uid = auth.uid
+          user.fb_token = auth.credentials.token
+          user.save
+        
+          #delete users who might have logged in with both before merging
+          User.where(:uid => auth.uid).each do |u|
+            unless u.is_google? && u.is_fb?
+              u.destroy
+            end
+          end
+        
+          user.delay.find_friends
+          return user
+        end    
     
     email = auth.info.email    
     unless email
@@ -186,12 +193,11 @@ class User < ActiveRecord::Base
       user.save
     end
     
-    #for logging in with fb after using google
-    
     user.fb_token = auth.credentials.token
     user.save
     
     user.delay.find_friends
+    
     user
   end
   
@@ -202,25 +208,34 @@ class User < ActiveRecord::Base
     
     email = data.email  
     
-    user = User.where(:email => email).first
-    
-    #for facebook users who are already logged in 
-    if signed_in_resource
-      user = signed_in_resource
-      user.refresh_token = tokens.refresh_token
-      user.token = tokens.token
-      user.save
-      
-      user.find_events
-      
-      return user
-    end    
+    user = User.where(:google_id => access_token.uid).first
+        
+        #for facebook users who are already logged in 
+        if signed_in_resource
+          user = signed_in_resource
+          user.refresh_token = tokens.refresh_token
+          user.token = tokens.token
+          user.google_id = access_token.uid
+          user.save          
+                  
+          #delete users who might have logged in with both before merging
+          User.where(:uid => user.uid).each do |u|
+            unless u.is_google? && u.is_fb?
+              u.destroy
+            end
+          end
+          
+          user.find_events
+          
+          return user
+        end    
     
     unless user
         user = User.create(:name => data.name,
                      :provider => 'google',
                      :email=> email,
-                     :password=>Devise.friendly_token[0,20]
+                     :password=>Devise.friendly_token[0,20],
+                     :google_id => access_token.uid
                      )
         user.set_default_picture
     end
@@ -228,7 +243,7 @@ class User < ActiveRecord::Base
     user.token = tokens.token
     user.save
     
-    user.find_events
+    #user.find_events
         
     user
   end
@@ -250,10 +265,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.search_friends(name)
-    if name
-      
-    end
+  def self.search_friends(name, user_id)
+    user = User.find(user_id)
+    friends = User.find_by_sql('SELECT "users".* FROM "users" INNER JOIN "friendships" ON "users"."id" = "friendships"."user_id" WHERE "friendships"."friend_id" = 1 AND (approved = true)
+'   )
+    friends.order('case when lower(name) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC,' +
+        'case when lower(email) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC').where('lower(name) LIKE ? OR lower(email) LIKE ?', "%#{name}%", "%#{name}%")
   end
 
 end

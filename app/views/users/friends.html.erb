@@ -2,7 +2,7 @@
 		:class => 'zocial facebook', :method => :post, :id => 'facebook-import', 
 		:title => "Import Facebook Friends" %></h4>
 <p>
-	<%= form_tag(users_list_friendships_path, :method => :get) do %>
+	<%= form_tag(user_friends_path, :method => :get) do %>
 	<%= text_field_tag :name, params[:name]%>
 	<%= submit_tag "Search for a friend", :name => nil, :class => 'btn btn-success' %>
 	<% end %>

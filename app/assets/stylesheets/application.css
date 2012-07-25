@@ -10,8 +10,5 @@
  *
  *= require_self
  *= require_tree .
+ *= require bootstrap_and_overrides 
 */
-
-
-body { font-family: 'Simonetta', Arial, serif; font-weight: 400; 
-text-align:center;}

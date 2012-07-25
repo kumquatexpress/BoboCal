@@ -12,7 +12,8 @@ class UsersController < ApplicationController
     @users = []
     
     if params[:name]
-      friends = User.search_friends(@name.downcase)
+      @name = params[:name]
+      friends = User.search_friends(@name.downcase, current_user.id)
     else 
       friends = current_user.friends
     end
