@@ -219,7 +219,7 @@ class User < ActiveRecord::Base
           user.save          
                   
           #delete users who might have logged in with both before merging
-          User.where(:uid => user.uid).each do |u|
+          User.where(:google_id => user.google_id).each do |u|
             unless u.is_google? && u.is_fb?
               u.destroy
             end
