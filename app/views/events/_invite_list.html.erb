@@ -9,9 +9,10 @@
 <div class = 'thumbnail'>
 	<% if @event %>
 		<% @event.invited_users.each do |user| %>
-			<div class = 'thumbnails well'>
+			<div class = 'thumbnails'>
 				<td><b><%= user.name %></b></td>
 				<td><%= image_tag(user.image_url, :class => 'span4')%></td>
+				<br/>
 			</div>
 		<% end %>
 	<% end %>

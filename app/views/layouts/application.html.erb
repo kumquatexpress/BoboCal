@@ -51,7 +51,7 @@
 	  		<div class = 'span2'>
 		  		<div class = 'well sidebar-nav'>
 					<ul class = 'nav nav-list'>
-						<li class = 'nav-header'>Bobo Manager</li>
+						<li>Bobo Manager</li>
 						<li class = 'divider'></li>
 						<li><%= link_to "Users", users_list_friendships_path, :method => "get", :class => 'btn' %></li>
 						</br>
@@ -68,7 +68,7 @@
 					<div class = 'well' id='flash-warning'><h3><%= flash[:warning]%></h3></div>
 				<% end %>
 				
-				<div class = 'hero-unit'>
+				<div class = 'hero-unit' id ='center-hero-unit'>
 					<div>							
 						<center>
 							<% if current_user%>

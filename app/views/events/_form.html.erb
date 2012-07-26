@@ -14,39 +14,28 @@
 	<%= f.label :title %>
 	<%= f.text_field :title %>
 </div>
-<div class="field">
-	<h4>My event begins promptly at:</h4>
-	<div class = 'container'>
-		<div class = 'span4'>
-			<em>(yyyy/mm/dd)</em> <%= f.text_field :startDate, :class => 'datepicker', :size => 10, :maxlength => 10 %> 
-		</div>
-		<div class = 'span4'>
-			<em>(hours:minutes)</em> <%= f.text_field :startHour, :size => 5, :maxlength => 5 %>
-		</div>
+<h4>My event begins promptly at:</h4>
+<div class = 'container-fluid'>
+	<div class = 'span6'>
+		<em>(yyyy/mm/dd)</em> <br/>
+		<%= f.text_field :startDate, :class => 'datepicker', :size => 10, :maxlength => 10 %> 
+	</div>
+	<div class = 'span6'>
+		<em>(hours:minutes)</em> <br/>
+		<%= f.text_field :startHour, :size => 5, :maxlength => 5 %>
 	</div>
 </div>
-<div class="field">
-	<h4>When do I expect my event to end?</h4>
-	<div class = 'container'>
-		<div class = 'span4'>
-			<%= f.text_field :endDate, :class => 'datepicker', :size => 10, :maxlength => 10 %> 
-		</div>
-		<div class = 'span4'>
-			<%= f.text_field :endHour, :size => 5, :maxlength => 5 %>
-		</div>
+
+<h4>When do I expect my event to end?</h4>
+<div class = 'container-fluid'>
+	<div class = 'span6'>
+		<%= f.text_field :endDate, :class => 'datepicker', :size => 10, :maxlength => 10 %> 
+	</div>
+	<div class = 'span6'>
+		<%= f.text_field :endHour, :size => 5, :maxlength => 5 %>
 	</div>
 </div>
-<div class = "field"> Calendar<br />
-  	<% @calendar.each do |cal| %>
-  		<div class = 'span4'>
-	  		<h4><%= cal.title %></h4>
-			<div class = 'checkbox'><%= check_box_tag "event[calendar_ids][]" ,cal.id, 
-			@event.in_calendar?(cal) %></div>
-		</div>
-  	<% end %>
-</div>
-  
-  	  	<form action = "/events">
-	    <input type = "submit" class = 'btn btn-success' value = "Plan my event" />
-	    </form>
+  	<form action = "/events">
+    <input type = "submit" class = 'btn btn-success' value = "Plan my event" />
+    </form>
 <% end %>
