@@ -16,8 +16,18 @@ class EventsController < ApplicationController
   def index
     if user_signed_in?
       @my_events = Event.where(:user_id => 
-      current_user.id)
-      @invited_events = current_user.invited_events
+      current_user.id).order("start_at")
+      @invited_events = Array.new
+      
+      current_user.invited_events.each do |event|
+        @invited_events.push(event)
+      end
+      
+      if @invited_events != []
+        @my_events.each do |event|
+          @invited_events.delete(event)
+        end
+      end
     else
       @events = Event.where(:user_id =>
       nil)
@@ -41,13 +51,15 @@ class EventsController < ApplicationController
   end
   
   def invite_friend  
+    @name = params[:name]
+
     if params[:name]
-      friends = User.search_friends(@name.downcase)
+      friends = User.search(@name.downcase)
     else 
       friends = current_user.friends
     end
     
-    if params[:event]
+    if params[:event] != nil
       @event = Event.find(params[:event])
     end
     
@@ -76,7 +88,7 @@ class EventsController < ApplicationController
     
     if params[:path] == "true"
       Event.add_invited_user(params[:event], params[:user])
-    else
+    elsif params[:path] == "false"
       Event.delete_invited_user(params[:event], params[:user])
     end
     
@@ -86,27 +98,6 @@ class EventsController < ApplicationController
     end
         
   end
-  
-  # POST /events/new/:invited
-  /#def with_invite
-    @invited_array = Array.new
-    counter = 0
-    params[:invited].each do |id|
-      @invited_array[counter] = User.find(id)
-      counter += 1
-    end
-    
-    @event = Event.new(:invited_users => @invited_array)
-    @event.save
-    logger.info @event.invited_users.first.first_name
-    
-    @calendar = Calendar.where(:user_id => current_user.id)
-    
-    respond_to do |format|
-      format.html # with_invite.html.erb
-      format.json { render :json => @event }
-    end   
-  end#/
 
   # GET /events/new
   # GET /events/new.json
@@ -114,6 +105,7 @@ class EventsController < ApplicationController
     @calendar = Calendar.all
     @event = Event.new(params[:event])
     @event.user_id = current_user.id
+    @event.invited_users.push(current_user)
     @event.save
     
     respond_to do |format|

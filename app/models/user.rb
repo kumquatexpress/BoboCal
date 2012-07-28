@@ -265,12 +265,14 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.search_friends(name, user_id)
-    user = User.find(user_id)
-    friends = User.find_by_sql('SELECT "users".* FROM "users" INNER JOIN "friendships" ON "users"."id" = "friendships"."user_id" WHERE "friendships"."friend_id" = 1 AND (approved = true)
-'   )
-    friends.order('case when lower(name) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC,' +
-        'case when lower(email) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC').where('lower(name) LIKE ? OR lower(email) LIKE ?', "%#{name}%", "%#{name}%")
+  def self.search_friends(name)
+    if name
+      find(:all, :order => ['case when lower(name) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC,' +
+        'case when lower(email) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC'],
+      :conditions => ['lower(name) LIKE ? OR lower(email) LIKE ?', "%#{name}%", "%#{name}%"])
+    else
+      find(:all)
+    end
   end
 
 end

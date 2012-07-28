@@ -2,6 +2,14 @@
 			<table class = 'table'>
 				<th></th>
 				<th>Name</th>
+				<th>
+				<% if @previous_page %>
+					<%= link_to "Previous 25", user_friends_path(:page => @page_num-1), :method => :post, :class => 'btn'%>
+				<% end %>		
+				
+				<% if @next_page %>
+					<%= link_to "Next 25", user_friends_path(:page => @page_num+1), :method => :post, :class => 'btn' %>
+				<% end %></th>
 			<% @friends.each do |friend| %>
 				<tr>
 					<td><%= image_tag(friend.image_url, :class=>'span4')%></td>
@@ -32,10 +40,10 @@
 				</tr>
 			<%end%>
 			</table>
-			<div class = 'container'>
-				<div class = 'span9'>
+			<div class = 'container-fluid'>
+				<div class = 'span7'>
 				</div>
-				<div class = 'span3'>
+				<div class = 'span5'>
 				<p>
 				<% if @previous_page %>
 					<%= link_to "Previous 25", user_friends_path(:page => @page_num-1), :method => :post, :class => 'btn'%>

@@ -5,7 +5,7 @@
 		<br/>
 
 <div class = 'container-fluid'>
-	<div class = 'span6' style = "height:500px;overflow=auto">
+	<div class = 'span6' style = "height:450px;overflow:auto">
 		<table class = 'table'>
 			<h4>Events you've been invited to:</h4>
 		  <tr>
@@ -20,7 +20,7 @@
 		
 		<% @invited_events.each do |event| %>
 		  <tr>
-		  	<td><%= event.title %></td>
+		  	<td id='event-title'><%= event.title %></td>
 		  	<td><%= User.find(event.user_id).name %></td>
 		    <td><%= event.start_at %></td>
 		    <td><%= event.end_at %></td>
@@ -30,7 +30,7 @@
 		<% end %>
 		</table>
 	</div>
-	<div class='span6' style="height:500px;overflow=auto">
+	<div class='span6' style="height:450px;overflow:auto">
 		<table class ='table'>
 			<h4>Your Events:</h4>
 		<tr>
@@ -40,7 +40,7 @@
 		</tr>	
 		<% @my_events.each do |event| %>
 		<tr>
-		  	<td><%= event.title %></td>
+		  	<td id ='event-title'><%= event.title %></td>
 		    <td><%= event.start_at %></td>
 		    <td><%= event.end_at %></td>
 		    <td><%= link_to 'Fix it up', edit_event_path(event), :class => 'btn' %>

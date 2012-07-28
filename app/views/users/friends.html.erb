@@ -1,13 +1,9 @@
 	<h4><%= link_to "Your Friends", omniauth_authorize_path(current_user, 'facebook'),
 		:class => 'zocial facebook', :method => :post, :id => 'facebook-import', 
-		:title => "Import Facebook Friends" %></h4>
-<p>
-	<%= form_tag(user_friends_path, :method => :get) do %>
-	<%= text_field_tag :name, params[:name]%>
-	<%= submit_tag "Search for a friend", :name => nil, :class => 'btn btn-success' %>
-	<% end %>
-</p>	
-
+		:title => "Import Facebook Friends" %></h4> <br/>
+<div id = 'friend-search'>
+	<%= render 'friend_search' %>
+</div>	
 <div class = 'container-fluid'>
 	<div class = 'span8' id = 'friend-div'>
 		<%= render 'friends' %>

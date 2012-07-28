@@ -1,14 +1,20 @@
 <div>
 <h4>Hello, <%= @user.name %>!</h4>
 </div>
-<div class = 'well container-fluid'>
+<div class = 'container-fluid'>
 	<div class = 'span4'>
 		<%= image_tag(@user.image_url, :class => 'span8')%>
 	</div>
 	<div class = 'span4'>
-		<table class ='table'>
+		<table class ='table well'>
 			<tr><b>Your Pending Events:</b></tr>
-				<td></td>
+				<% @user.invited_events.each do |event| %>
+				<tr>
+					<td><%= event.title %></td>
+					<td><%= event.start_at %></td>
+					<td><%= event.end_at %></td>
+				</tr>
+				<% end %>
 		</table>
 	</div>
 	<div class = 'span4'>

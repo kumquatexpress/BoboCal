@@ -9,6 +9,17 @@
 			<th></th>
 			<th>Name</th>
 			<th>Email</th>
+			<th>			
+			<% if @previous_page %>
+				<%= link_to "Previous 25", users_list_friendships_path(:page => @page_num-1, :name => @name), 
+				:method => :get, :class => 'btn'%>
+			<% end %>		
+			
+			<% if @next_page %>
+				<%= link_to "Next 25", users_list_friendships_path(:page => @page_num+1, :name => @name), 
+				:method => :get, :class => 'btn' %>
+			<% end %>
+			</th>
 		</tr>
 		<% @users.each do |user| %>
 			<% if user != current_user %>
@@ -38,11 +49,10 @@
 			<%end%>
 		<% end %>
 	</table>
-		<div class = 'container'>
-			<div class = 'span9'>
+		<div class = 'container-fluid'>
+			<div class = 'span7'>
 			</div>
-			<div class = 'span3'>
-			<p>
+			<div class = 'span5'>
 			<% if @previous_page %>
 				<%= link_to "Previous 25", users_list_friendships_path(:page => @page_num-1, :name => @name), 
 				:method => :get, :class => 'btn'%>

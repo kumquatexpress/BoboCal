@@ -68,7 +68,7 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  background: white;
+  background:rgb(141,141,141);
   overflow: hidden;
   border-right: 1px solid #d5d5d5;
 }
