@@ -107,6 +107,7 @@ class EventsController < ApplicationController
     @event.user_id = current_user.id
     @event.invited_users.push(current_user)
     @event.save
+    Event.save_to_google_calendar(@event.id)
     
     respond_to do |format|
       format.html # new.html.erb
@@ -158,7 +159,7 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.update_attributes(params[:event])
-          Event.save_to_google_calendar(@event.id)
+          Event.update_google_calendar(@event.id)
       
         format.html { redirect_to @event, :notice => 'Event was successfully updated.' }
         format.json { head :no_content }
@@ -173,6 +174,7 @@ class EventsController < ApplicationController
   # DELETE /events/1.json
   def destroy
     @event = Event.find(params[:id])
+    Event.delete_from_google_calendar(@event.id)
     @event.destroy
 
     respond_to do |format|

@@ -12,7 +12,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :invited_users, :class_name => "User"
   
   attr_accessible :id, :calendar_ids, :end_at, :start_at, :title, :user_id, :invited_users,
-  :startDate, :startHour, :endDate, :endHour, :google_id
+  :startDate, :startHour, :endDate, :endHour, :google_id, :location
   
   attr_accessor :startDate, :startHour, :endDate, :endHour
   
@@ -82,13 +82,12 @@ class Event < ActiveRecord::Base
     event.invited_users.each do |user|
       attendees.push("email" => "#{user.email}")
     end
-    attendees.push("email" => "#{User.find(event.user_id).email}")
     logger.info attendees    
     
     #form the body of the request to post to google
     event_string = {
     'summary' => event.title,
-    'location' => "asdf",
+    'location' => event.location,
     'start' => {
       'dateTime' => event.start_at
       },
@@ -100,14 +99,79 @@ class Event < ActiveRecord::Base
     
     service = client.discovered_api('calendar', 'v3')
     res = client.execute(:api_method => service.events.insert,
-                    :parameters => {'calendarId' => '{primary}'},
+                    :parameters => {'calendarId' => 'primary'},
                     :body => JSON.dump(event_string),
                     :headers => {'Content-Type' => 'application/json'})
                     
     logger.info JSON.dump(event_string)
     logger.info res.data.id
-    logger.info "123123123"
+    
+    event.google_id = res.data.id
+    event.save
   end
     
+  def self.delete_from_google_calendar(event_id)
+    oauth_yaml = YAML.load_file('.google-api.yaml')
+    client = Google::APIClient.new
+    client.authorization.client_id = oauth_yaml["client_id"]
+    client.authorization.client_secret = oauth_yaml["client_secret"]
+    client.authorization.scope = oauth_yaml["scope"]
+    client.authorization.refresh_token = oauth_yaml["refresh_token"]
+    client.authorization.access_token = oauth_yaml["access_token"]
+    
+    if client.authorization.refresh_token && client.authorization.expired?
+      client.authorization.fetch_access_token!
+    end
+    
+    event = Event.find(event_id)
+
+    service = client.discovered_api('calendar', 'v3')
+    res = client.execute(:api_method => service.events.delete,
+                    :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id})
+                    
+    logger.info "123123123"
+  end
   
+  def self.update_google_calendar(event_id)
+    oauth_yaml = YAML.load_file('.google-api.yaml')
+    client = Google::APIClient.new
+    client.authorization.client_id = oauth_yaml["client_id"]
+    client.authorization.client_secret = oauth_yaml["client_secret"]
+    client.authorization.scope = oauth_yaml["scope"]
+    client.authorization.refresh_token = oauth_yaml["refresh_token"]
+    client.authorization.access_token = oauth_yaml["access_token"]
+    
+    if client.authorization.refresh_token && client.authorization.expired?
+      client.authorization.fetch_access_token!
+    end
+    
+    event = Event.find(event_id)
+    #form the attendees array to invite users to gcal event
+    attendees = Array.new
+    event.invited_users.each do |user|
+      attendees.push("email" => "#{user.email}")
+    end
+    logger.info attendees    
+    
+    #form the body of the request to post to google
+    event_string = {
+    'summary' => event.title,
+    'location' => event.location,
+    'start' => {
+      'dateTime' => event.start_at
+      },
+    'end' => {
+      'dateTime' => event.end_at
+      },
+    'attendees' => attendees
+    }
+    
+    service = client.discovered_api('calendar', 'v3')
+    res = client.execute(:api_method => service.events.update,
+                    :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id},
+                    :body => JSON.dump(event_string),
+                    :headers => {'Content-Type' => 'application/json'})
+                    
+    logger.info "123123123"
+  end  
 end
