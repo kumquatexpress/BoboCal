@@ -131,7 +131,8 @@ class Event < ActiveRecord::Base
       
       event.google_id = res.data.id
       event.save
-   rescue
+   rescue Exception => e
+     logger.info e.message
      return
    end
   end
@@ -157,8 +158,8 @@ class Event < ActiveRecord::Base
                       :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id})
                       
       logger.info "123123123"
-    rescue
-      return
+   rescue Exception => e
+     logger.info e.message
     end
   end
   
@@ -205,8 +206,8 @@ class Event < ActiveRecord::Base
                       )
                       
       logger.info "123123123"
-    rescue
-      return
+   rescue Exception => e
+     logger.info e.message
     end  
   end
   

@@ -5,7 +5,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
 
     if @user
-      if @user.sign_in_count == 0
+      if @user.sign_in_count < 2
         sign_in @user
         redirect_to alternatives_path
         return
@@ -23,7 +23,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       
       @user = User.find_for_google_oauth2(request.env["omniauth.auth"], current_user)
       if @user
-        if @user.sign_in_count == 0
+        if @user.sign_in_count < 2
           sign_in @user
           redirect_to alternatives_path
           return
