@@ -1,4 +1,20 @@
-<h3>Sign in and start using BoboCal</h3>
+<h2>Hey, you're not signed in yet.</h2>
+<p>What are you waiting for? Persuasion? Okay, here goes. <br/>
+	<div class = 'container-fluid'>
+		<div class = 'span6'>
+			BoboCal takes your <b>Facebook friends</b> and your Google Calendar and makes it super-simple
+			to schedule a night out to dinner or a football game in the park or that concert you wanted to go to but didn't
+			because you didn't know when everyone else was available.
+		</div>
+		<div class = 'span6'>
+			Essentially, you plan the event, and everyone you invite gets to put in what times they're free.
+			This lets you pick the best time so you can avoid all of those group texts and back-and-forth emails.
+		</div>
+	</div>
+</p>
+<p>
+	But to get all of this, you have to sign in.  So hurry up!
+</p>
 	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 	  <div><em><%= f.label :email %></em>
 	  <%= f.email_field :email %></div>
