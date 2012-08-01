@@ -148,11 +148,15 @@ class Event < ActiveRecord::Base
     
     event = Event.find(event_id)
 
-    service = client.discovered_api('calendar', 'v3')
-    res = client.execute(:api_method => service.events.delete,
-                    :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id})
-                    
-    logger.info "123123123"
+    begin
+      service = client.discovered_api('calendar', 'v3')
+      res = client.execute(:api_method => service.events.delete,
+                      :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id})
+                      
+      logger.info "123123123"
+    rescue
+      return
+    end
   end
   
   def self.update_google_calendar(event_id)
@@ -189,13 +193,17 @@ class Event < ActiveRecord::Base
     'attendees' => attendees
     }
     
-    service = client.discovered_api('calendar', 'v3')
-    res = client.execute(:api_method => service.events.update,
-                    :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id},
-                    :body => JSON.dump(event_string),
-                    :headers => {'Content-Type' => 'application/json'})
-                    
-    logger.info "123123123"
-  end  
+    begin
+      service = client.discovered_api('calendar', 'v3')
+      res = client.execute(:api_method => service.events.update,
+                      :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id},
+                      :body => JSON.dump(event_string),
+                      :headers => {'Content-Type' => 'application/json'})
+                      
+      logger.info "123123123"
+    rescue
+      return
+    end  
+  end
   
 end
