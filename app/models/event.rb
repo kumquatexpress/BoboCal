@@ -119,7 +119,7 @@ class Event < ActiveRecord::Base
     service = client.discovered_api('calendar', 'v3')
     res = client.execute(:api_method => service.events.insert,
                     :parameters => {'calendarId' => 'primary'},
-                    :body => JSON.dump(event_string),
+                    :body => JSON(event_string),
                     :headers => {'Content-Type' => 'application/json'})
                     
     logger.info JSON.dump(event_string)
