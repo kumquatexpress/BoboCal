@@ -3,14 +3,21 @@
 	Here's a very brief overview of what BoboCal can do for you: <br/>
 	<div class = 'container-fluid table'>
 		<div class = 'span6 well'>
-			If you came through your Facebook account, your friend network is being loaded right now. <br/>
+			If you came through your Facebook account, your friend network is being loaded right now.
 			You can get your <%= link_to "Google calendar events here", omniauth_authorize_path(current_user, 'google_oauth2'),
 				:class => 'zocial googleplus', :method => :post, :title => "Import Google Events"  %>.
 		</div>
 		<div class = 'span6 well'>
-			If you're logged in with Google, your events are being loaded and you can <br/>
-			access your <%= link_to "Facebook friends here", omniauth_authorize_path(current_user, 'facebook'),
+			If you're logged in with Google, your events are being loaded and you can access your
+			<%= link_to "Facebook friends here", omniauth_authorize_path(current_user, 'facebook'),
 			:class => 'zocial facebook', :method => :post, :title => "Import Facebook Friends" %>.
 		</div>
+	</div>
+	<div class = 'container-fluid well'>
+		If you didn't use either of the sign in options, you're free to import your events and friends at any time
+		from the 
+			<%= link_to "Friends", user_friends_path, :class => 'btn btn-success'%> or
+			<%= link_to "Events", events_path, :class => 'btn btn-success' %> page as well as from
+			<%= link_to "your profile", user_profile_path(:id => current_user.id), :class => 'btn btn-success'%>.
 	</div>
 </p>

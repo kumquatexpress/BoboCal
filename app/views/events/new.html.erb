@@ -1,8 +1,9 @@
 <div class = 'container-fluid'>
 	<div class = 'span8'>
 		<%= render 'form' %>
-		<%= link_to 'Show', @event %> |
-		<%= link_to 'Back', events_path %>
+		<div id = 'show-calendar'>
+			<%= render 'calendars/form' %>
+		</div>
 	</div>
 
 	<div class = 'span4'>
@@ -17,5 +18,7 @@
 		<div id = 'update-div' style="height:540px;overflow:auto">
 			<%= render 'events/invite_list' %>
 		</div>
+		
+		<%= link_to "Back to My Events", events_path, :class => 'btn'%>
 	</div>
 </div>

@@ -109,6 +109,10 @@
 						<li><%= link_to "Calendar", calendars_path, :method => 'get', :class => 'btn'%></li>
 					</ul>
 				</div>
+				<div class = 'thumbnails'>
+					<center><%= link_to "Guide to getting started with BoboCal", 
+					alternatives_path, :class => 'btn btn-inverse',:id => 'getting-started'%></center>
+				</div>
 		  	</div>
 			<div class = 'span10' >
 				<% if flash[:warning]%>

@@ -1,33 +1,55 @@
 <div>
-<h4>Hello, <%= @user.name %>!</h4>
+<h2>Hello, <%= @user.name %>!</h2>	<br/>
 </div>
 <div class = 'container-fluid'>
-	<div class = 'span4'>
-		<%= image_tag(@user.image_url, :class => 'span8')%>
+	<div class = 'span8'>
+		<div class = 'container-fluid well'>
+			This is your profile.  Here you can 
+			<%= link_to "edit your account information", edit_user_registration_path, :class => 'btn btn-success'%>, 
+			<%= link_to "change your picture", 'fake#path', :class => 'btn btn-success'%>, and look
+			at your upcoming events.  
+		</div>
+		<div class = 'container-fluid'>
+			<div class = 'span6'>
+				<%= image_tag(@user.image_url, :class => 'span8')%>
+			</div>
+			<div class = 'span6'>
+					<%= link_to "", user_find_friends_path(:user => current_user.id),
+				:class => 'zocial facebook icon', :method => :post, :id => 'facebook-import', 
+				:title => "Import Facebook Friends" %>
+				<%= link_to "", user_find_events_path(:user => current_user.id),
+				:class => 'zocial googleplus icon', :method => :post, :id => 'google-import', 
+				:title => "Import Google Calendar Events"  %> <br/> <br/>
+				<h4>Unhappy?</h4> 
+				<p><%= button_to "Cancel my account", registration_path(@user), :confirm => 
+					"Are you sure?", :method => :delete, :class=>'btn btn-danger' %></p>
+			</div>
+		</div>
 	</div>
 	<div class = 'span4' style = 'height:450px;overflow:auto'>
-		<table class ='table well'>
+		<table class ='table well' id='center-well'>
 			<tr><b>Your Pending Events:</b></tr>
-				<% @user.invited_events.each do |event| %>
+				<% if @user.invited_events.count > 0 %>
+					<% @user.invited_events.each do |event| %>
+					<tr>
+						<td><%= event.title %></td>
+						<td><%= event.start_at %></td>
+						<td><%= event.end_at %></td>
+					</tr>
+					<% end %>
+				<% else %>
 				<tr>
-					<td><%= event.title %></td>
-					<td><%= event.start_at %></td>
-					<td><%= event.end_at %></td>
+					<td>
+						<h3>
+							<center>Looks like you're staying home this Friday night. Bobo can help you
+							<%= link_to "Find something to do", 'findevent#path', :class => 'btn btn-primary'%>
+							</center></h3>
+					</td>
 				</tr>
 				<% end %>
 		</table>
 	</div>
-	<div class = 'span4'>
-			<%= link_to "", user_find_friends_path(:user => current_user.id),
-		:class => 'zocial facebook icon', :method => :post, :id => 'facebook-import', 
-		:title => "Import Facebook Friends" %>
-		<%= link_to "", user_find_events_path(:user => current_user.id),
-		:class => 'zocial googleplus icon', :method => :post, :id => 'google-import', 
-		:title => "Import Google Calendar Events"  %> <br/> <br/>
-		<h4>Unhappy?</h4> 
-		<p><%= button_to "Cancel my account", registration_path(@user), :confirm => 
-			"Are you sure?", :method => :delete, :class=>'btn btn-danger' %></p>
-	</div>
 </div>
+
 
 
