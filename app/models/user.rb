@@ -265,14 +265,4 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.search_friends(name)
-    if name
-      find(:all, :order => ['case when lower(name) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC,' +
-        'case when lower(email) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC'],
-      :conditions => ['lower(name) LIKE ? OR lower(email) LIKE ?', "%#{name}%", "%#{name}%"])
-    else
-      find(:all)
-    end
-  end
-
 end

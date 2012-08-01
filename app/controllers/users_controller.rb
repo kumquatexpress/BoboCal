@@ -13,9 +13,15 @@ class UsersController < ApplicationController
     
     if params[:name]
       @name = params[:name]
-      friends = User.search_friends(@name.downcase, current_user.id)
+      friends = User.search(@name.downcase)
     else 
       friends = current_user.friends
+    end
+    
+    friends.each do |f|
+      unless current_user.friends.include?(f)
+        friends.delete(f)
+      end
     end
     
     if params[:event]

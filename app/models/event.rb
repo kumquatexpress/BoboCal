@@ -122,8 +122,9 @@ class Event < ActiveRecord::Base
       service = client.discovered_api('calendar', 'v3')
       res = client.execute(:api_method => service.events.insert,
                       :parameters => {'calendarId' => 'primary'},
-                      :body => JSON(event_string),
-                      :headers => {'Content-Type' => 'application/json'})
+                      :headers => {'Content-Type' => 'application/json'},
+                      :body => JSON(event_string)
+                      )
                       
 
       logger.info res.data.id
@@ -199,8 +200,9 @@ class Event < ActiveRecord::Base
       service = client.discovered_api('calendar', 'v3')
       res = client.execute(:api_method => service.events.update,
                       :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id},
-                      :body => JSON.dump(event_string),
-                      :headers => {'Content-Type' => 'application/json'})
+                      :headers => {'Content-Type' => 'application/json'},
+                      :body => JSON.dump(event_string)
+                      )
                       
       logger.info "123123123"
     rescue
