@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(:version => 20120731145719) do
     t.integer  "user_id"
     t.integer  "invited_ids"
     t.string   "google_id"
-    t.string   "location"
+    t.string   "location",     :default => "My Crib"
   end
 
   create_table "events_posts", :id => false, :force => true do |t|
