@@ -5,8 +5,9 @@ WebCal::Application.routes.draw do
   :as => :calendars, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 
   resources :calendars
+  resources :alternatives
   
-  match 'users/profile/:id' => 'users#profile', :as=>:user_profile
+  match 'users/profile' => 'users#profile', :as=>:user_profile
   match 'users/find_friends' => 'users#find_friends', :as => :user_find_friends
   match 'users/find_events' => 'users#find_events', :as => :user_find_events
   match 'users/friends' => 'users#friends', :as => :user_friends
@@ -20,14 +21,15 @@ WebCal::Application.routes.draw do
   
   resources :events do
     collection do
-      get :invite_friend
+      get :invite_friend, :show_calendar
     end
   end
 
   resources :posts
 
   devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks",
-                                      :registrations => 'registrations'}
+                                      :registrations => 'registrations',
+                                      :sessions => 'sessions'}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

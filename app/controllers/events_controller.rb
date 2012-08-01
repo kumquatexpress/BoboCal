@@ -42,6 +42,15 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    #for calendar display
+    @month = (params[:month] || Time.zone.now.month).to_i
+    @year = (params[:year] || Time.zone.now.year).to_i
+
+    @shown_month = Date.civil(@year, @month)
+
+    @event_strips = Event.event_strips_for_month(@shown_month, :conditions => ['user_id = ?', current_user.id])
+    
+    
     @event = Event.find(params[:id])
     @calendar = Calendar.find(@event.calendar_ids)
     respond_to do |format|
@@ -90,6 +99,10 @@ class EventsController < ApplicationController
       Event.add_invited_user(params[:event], params[:user])
     elsif params[:path] == "false"
       Event.delete_invited_user(params[:event], params[:user])
+    elsif params[:path] == "admin add"
+      Event.add_admin_user(params[:event], params[:user])
+    elsif params[:path] == "admin remove"
+      Event.delete_admin_user(params[:event], params[:user])
     end
     
     respond_to do |format|
@@ -102,6 +115,15 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.json
   def new
+    #for calendar display
+    @month = (params[:month] || Time.zone.now.month).to_i
+    @year = (params[:year] || Time.zone.now.year).to_i
+
+    @shown_month = Date.civil(@year, @month)
+
+    @event_strips = Event.event_strips_for_month(@shown_month, :conditions => ['user_id = ?', current_user.id])
+    
+    
     @calendar = Calendar.all
     @event = Event.new(params[:event])
     @event.user_id = current_user.id
@@ -117,6 +139,15 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    #for calendar display
+    @month = (params[:month] || Time.zone.now.month).to_i
+    @year = (params[:year] || Time.zone.now.year).to_i
+
+    @shown_month = Date.civil(@year, @month)
+
+    @event_strips = Event.event_strips_for_month(@shown_month, :conditions => ['user_id = ?', current_user.id])
+    
+    
     @event = Event.find(params[:id])
     
     @calendar = Calendar.where(:user_id => 
@@ -184,7 +215,11 @@ class EventsController < ApplicationController
   end
   
   #GET /
-  
+  def show_calendar
+    respond_to do |format|
+       format.js { render :layout => false}
+    end
+  end
   
   # POST /mobileCreate
   def mobileCreate

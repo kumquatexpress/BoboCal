@@ -10,13 +10,15 @@
       </ul>
     </div>
   <% end %>  
-<div class="field">
-	<%= f.label :title %>
-	<%= f.text_field :title %>
-</div>
-<div class = 'field'>
-	<%= f.label :location %>
-	<%= f.text_field :location %>
+<div class = 'container-fluid'>
+	<div class="span6">
+		<h4>Event name</h4>
+		<%= f.text_field :title %>
+	</div>
+	<div class = 'span6'>
+		<h4>Event location</h4>
+		<%= f.text_field :location %>
+	</div>
 </div>
 <h4>My event begins promptly at:</h4>
 <div class = 'container-fluid'>
@@ -43,3 +45,6 @@
     <input type = "submit" class = 'btn btn-success' value = "Plan my event" />
     </form>
 <% end %>
+
+
+

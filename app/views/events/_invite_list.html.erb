@@ -17,6 +17,17 @@
 					<% unless user.id == @event.user_id %>
 						<%= button_to "Uninvite", invite_friend_events_path(:event => @event, :user =>user.id,:path=>false),
 						:remote => true, :method => "get", :class => 'btn btn-warning'%>
+						<% if @event.admin_users.include?(user) 
+							button_title = "Remove Admin" 
+							button_class = "btn btn-warning"
+							path = "admin remove" 
+						   else
+						   	button_title = "Make Admin"
+						   	button_class = "btn btn-primary" 
+						   	path = "admin add" %>
+						<%= button_to button_title, invite_friend_events_path(:event => @event, :user => user.id, :path => path),
+						:remote => true, :method => "get", :class => button_class %>
+						<% end %>					
 					<% end %>
 				</td>
 				<br/>

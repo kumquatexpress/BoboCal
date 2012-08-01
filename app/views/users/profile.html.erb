@@ -5,7 +5,7 @@
 	<div class = 'span4'>
 		<%= image_tag(@user.image_url, :class => 'span8')%>
 	</div>
-	<div class = 'span4'>
+	<div class = 'span4' style = 'height:450px;overflow:auto'>
 		<table class ='table well'>
 			<tr><b>Your Pending Events:</b></tr>
 				<% @user.invited_events.each do |event| %>

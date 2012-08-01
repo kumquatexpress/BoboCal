@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120730193608) do
+ActiveRecord::Schema.define(:version => 20120731145719) do
 
   create_table "calendar_events", :force => true do |t|
     t.integer  "calendar_id"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20120730193608) do
   create_table "events_users", :id => false, :force => true do |t|
     t.integer "event_id"
     t.integer "user_id"
+    t.boolean "admin_user", :default => false
   end
 
   create_table "friendships", :force => true do |t|

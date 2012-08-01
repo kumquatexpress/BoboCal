@@ -10,6 +10,7 @@ class Event < ActiveRecord::Base
   belongs_to :user
   
   has_and_belongs_to_many :invited_users, :class_name => "User"
+  has_and_belongs_to_many :admin_users, :class_name => "User", :conditions => "admin_user = true"
   
   attr_accessible :id, :calendar_ids, :end_at, :start_at, :title, :user_id, :invited_users,
   :startDate, :startHour, :endDate, :endHour, :google_id, :location
@@ -52,6 +53,24 @@ class Event < ActiveRecord::Base
     user = User.find(user_id)
     event.invited_users.delete(user)
     event.save 
+  end
+  
+  #methods for adding admin users to the event
+  def self.add_admin_user(event_id, user_id)
+    event = Event.find(event_id)
+    user = User.find(user_id)
+    unless event.admin_users.include?(user)
+      event.invited_users.delete(user)
+      event.admin_users.push(user)
+      event.save
+    end    
+  end
+  
+  def self.delete_admin_user(event_id, user_id)
+    event = Event.find(event_id)
+    user = User.find(user_id)
+    event.admin_users.delete(user)
+    event.save  
   end
   
   def find_calendar(calendar_id)
@@ -174,4 +193,5 @@ class Event < ActiveRecord::Base
                     
     logger.info "123123123"
   end  
+  
 end

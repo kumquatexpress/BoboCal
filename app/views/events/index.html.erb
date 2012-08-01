@@ -5,15 +5,21 @@
 		<br/>
 
 <div class = 'container-fluid'>
+	<div class = 'span6'>		
+		<h4>Events you've been invited to:</h4>
+	</div>
+	<div class = 'span6'>
+		<h4>Your Events:</h4>
+	</div>
+</div>
+<div class = 'container-fluid'>
 	<div class = 'span6' style = "height:450px;overflow:auto">
 		<table class = 'table'>
-			<h4>Events you've been invited to:</h4>
 		  <tr>
 		  	<th>Event</th>
 		  	<th>Host</th>
 		    <th>Begins</th>
 		    <th>Ends</th>
-		    <th></th>
 		    <th></th>
 		    <th></th>
 		  </tr>
@@ -24,7 +30,6 @@
 		  	<td><%= User.find(event.user_id).name %></td>
 		    <td><%= event.start_at %></td>
 		    <td><%= event.end_at %></td>
-		    <Td><%= event.calendar_ids %></Td>
 		    <td><%= link_to 'Look at it', edit_event_path(event), :class => 'btn' %></td>
 		  </tr>
 		<% end %>
@@ -32,7 +37,6 @@
 	</div>
 	<div class='span6' style="height:450px;overflow:auto">
 		<table class ='table'>
-			<h4>Your Events:</h4>
 		<tr>
 			<th>Event</th>
 			<th>Begins</th>

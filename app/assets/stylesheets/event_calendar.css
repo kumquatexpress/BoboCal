@@ -68,7 +68,7 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  background:rgb(141,141,141);
+  background:rgb(100,100,100);
   overflow: hidden;
   border-right: 1px solid #d5d5d5;
 }
@@ -95,7 +95,7 @@
 }
 
 .ec-today-bg {
-  background-color: #ffffdd;
+  background-color: rgb(80,250,80);
 }
 
 .ec-row-table {
@@ -122,7 +122,7 @@ a.ec-day-link {
 }
 
 .ec-today-header {
-  background-color: #d7d7ba;
+  background-color: rgb(237,231,45);
 }
 
 .ec-weekend-day-header {
@@ -130,7 +130,6 @@ a.ec-day-link {
 }
 
 .ec-other-month-header {
-  background-color: #efefef;
   color: #777;
 }
 
@@ -175,7 +174,7 @@ a.ec-day-link {
 }
 
 .ec-event-bg a {
-  color: white;
+  color: blue;
 }
 
 /* used to distinguish non-all_day events */

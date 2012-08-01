@@ -1,8 +1,9 @@
 <div class = 'container-fluid'>
 	<div class = 'span8'>
 		<%= render 'form' %>
-		<%= link_to 'Show', @event %> |
-		<%= link_to 'Back', events_path %>
+		<div id = 'show-calendar'>
+			<%= render 'calendars/form' %>
+		</div>
 	</div>
 
 	<div class = 'span4'>

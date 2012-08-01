@@ -9,4 +9,12 @@ class ApplicationController < ActionController::Base
   def current_calendar
     Calendar.find(session[:calendar_id])
   end
+  
+  def after_sign_in_path_for(resource)
+    if current_user.sign_in_count == 1
+      alternatives_path
+    end
+    calendars_path
+  end
+
 end

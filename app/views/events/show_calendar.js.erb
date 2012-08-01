@@ -1,0 +1,2 @@
+$('#show-calendar').html("<%= escape_javascript(render(:partial => "calendars/form", 
+:locals => {:month => @month, :year => @year, :shown_month => @shown_month, :event_strips => @event_strips}))%>");

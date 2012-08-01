@@ -1,0 +1,16 @@
+<h2>Welcome to BoboCal, <%= @user.name %>!</h2>
+<p>We're glad you thought the penguin was worth a closer look. <br/>
+	Here's a very brief overview of what BoboCal can do for you: <br/>
+	<div class = 'container-fluid table'>
+		<div class = 'span6 well'>
+			If you came through your Facebook account, your friend network is being loaded right now. <br/>
+			You can get your <%= link_to "Google calendar events here", omniauth_authorize_path(current_user, 'google_oauth2'),
+				:class => 'zocial googleplus', :method => :post, :title => "Import Google Events"  %>.
+		</div>
+		<div class = 'span6 well'>
+			If you're logged in with Google, your events are being loaded and you can <br/>
+			access your <%= link_to "Facebook friends here", omniauth_authorize_path(current_user, 'facebook'),
+			:class => 'zocial facebook', :method => :post, :title => "Import Facebook Friends" %>.
+		</div>
+	</div>
+</p>
