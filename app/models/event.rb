@@ -123,7 +123,7 @@ class Event < ActiveRecord::Base
       res = client.execute(:api_method => service.events.insert,
                       :parameters => {'calendarId' => 'primary'},
                       :headers => {'Content-Type' => 'application/json'},
-                      :body => JSON(event_string)
+                      :body => [JSON.dump(event_string)]
                       )
                       
 
@@ -202,7 +202,7 @@ class Event < ActiveRecord::Base
       res = client.execute(:api_method => service.events.update,
                       :parameters => {'calendarId' => 'primary', 'eventId' => event.google_id},
                       :headers => {'Content-Type' => 'application/json'},
-                      :body => JSON.dump(event_string)
+                      :body => [JSON.dump(event_string)]
                       )
                       
       logger.info "123123123"
