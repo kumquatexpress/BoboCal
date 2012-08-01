@@ -116,17 +116,21 @@ class Event < ActiveRecord::Base
     'attendees' => attendees
     }
     
-    service = client.discovered_api('calendar', 'v3')
-    res = client.execute(:api_method => service.events.insert,
-                    :parameters => {'calendarId' => 'primary'},
-                    :body => JSON(event_string),
-                    :headers => {'Content-Type' => 'application/json'})
-                    
-    logger.info JSON.dump(event_string)
-    logger.info res.data.id
-    
-    event.google_id = res.data.id
-    event.save
+    begin
+      service = client.discovered_api('calendar', 'v3')
+      res = client.execute(:api_method => service.events.insert,
+                      :parameters => {'calendarId' => 'primary'},
+                      :body => JSON(event_string),
+                      :headers => {'Content-Type' => 'application/json'})
+                      
+      logger.info JSON.dump(event_string)
+      logger.info res.data.id
+      
+      event.google_id = res.data.id
+      event.save
+   rescue
+     return
+   end
   end
     
   def self.delete_from_google_calendar(event_id)
