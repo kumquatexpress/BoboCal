@@ -81,14 +81,16 @@ class Event < ActiveRecord::Base
     return !(calendar.event.where(:id => self.id) == [])
   end
   
-  def self.save_to_google_calendar(event_id)    
+  def self.save_to_google_calendar(event_id, user_id)
+    user = User.find(user_id)
+        
     oauth_yaml = YAML.load_file('.google-api.yaml')
     client = Google::APIClient.new
     client.authorization.client_id = oauth_yaml["client_id"]
     client.authorization.client_secret = oauth_yaml["client_secret"]
     client.authorization.scope = oauth_yaml["scope"]
-    client.authorization.refresh_token = oauth_yaml["refresh_token"]
-    client.authorization.access_token = oauth_yaml["access_token"]
+    client.authorization.refresh_token = user.refresh_token
+    client.authorization.access_token = user.token
     
     if client.authorization.refresh_token && client.authorization.expired?
       client.authorization.fetch_access_token!
@@ -98,8 +100,8 @@ class Event < ActiveRecord::Base
 
     #form the attendees array to invite users to gcal event
     attendees = Array.new
-    event.invited_users.each do |user|
-      attendees.push("email" => "#{user.email}")
+    event.invited_users.each do |u|
+      attendees.push("email" => "#{u.email}")
     end
     logger.info attendees    
     
@@ -137,14 +139,16 @@ class Event < ActiveRecord::Base
    end
   end
     
-  def self.delete_from_google_calendar(event_id)
+  def self.delete_from_google_calendar(event_id, user_id)
+    user = User.find(user_id)
+    
     oauth_yaml = YAML.load_file('.google-api.yaml')
     client = Google::APIClient.new
     client.authorization.client_id = oauth_yaml["client_id"]
     client.authorization.client_secret = oauth_yaml["client_secret"]
     client.authorization.scope = oauth_yaml["scope"]
-    client.authorization.refresh_token = oauth_yaml["refresh_token"]
-    client.authorization.access_token = oauth_yaml["access_token"]
+    client.authorization.refresh_token = user.refresh_token
+    client.authorization.access_token = user.token
     
     if client.authorization.refresh_token && client.authorization.expired?
       client.authorization.fetch_access_token!
@@ -163,14 +167,16 @@ class Event < ActiveRecord::Base
     end
   end
   
-  def self.update_google_calendar(event_id)
+  def self.update_google_calendar(event_id, user_id)
+    user = User.find(user_id)
+    
     oauth_yaml = YAML.load_file('.google-api.yaml')
     client = Google::APIClient.new
     client.authorization.client_id = oauth_yaml["client_id"]
     client.authorization.client_secret = oauth_yaml["client_secret"]
     client.authorization.scope = oauth_yaml["scope"]
-    client.authorization.refresh_token = oauth_yaml["refresh_token"]
-    client.authorization.access_token = oauth_yaml["access_token"]
+    client.authorization.refresh_token = user.refresh_token
+    client.authorization.access_token = user.token
     
     if client.authorization.refresh_token && client.authorization.expired?
       client.authorization.fetch_access_token!
@@ -179,8 +185,8 @@ class Event < ActiveRecord::Base
     event = Event.find(event_id)
     #form the attendees array to invite users to gcal event
     attendees = Array.new
-    event.invited_users.each do |user|
-      attendees.push("email" => "#{user.email}")
+    event.invited_users.each do |u|
+      attendees.push("email" => "#{u.email}")
     end
     logger.info attendees    
     
