@@ -52,17 +52,19 @@
 	<div class = 'navbar'>
 		<div class ='navbar-inner'>
 				<div class = 'container'>
-				<ul class= 'nav'>
+						<ul class = 'nav'>
+							<div class="g-plusone" data-href="http://www.BoboCal.com"></div>
+						  	<div class="fb-like" data-href="http://www.BoboCal.com" data-colorscheme="dark"
+			  				data-send="true" data-width="300" data-show-faces="true" data-font="verdana" id = 'fb-like'></div>
+		  				</ul>
+				<ul class= 'nav'>					
+		  				
 					<% if user_signed_in? %>
 			  			<h5>Signed in as <%= current_user.email %>. Not you?</h5>
 			  			<%= image_tag('TextLogo320100.png', :class => 'span2') %>	
 			  			<li><%= button_to  "Sign out", destroy_user_session_path, :method => "delete", :class => 'btn btn-mini'%></li>
 			  			
 			  			<li><%=button_to "My Profile", user_profile_path(:id => current_user), :class=>'btn btn-mini'%></li>
-			  			
-			  			<div class="g-plusone" data-href="http://www.BoboCal.com"></div>	
-			  			<div class="fb-like" data-href="http://www.BoboCal.com" data-colorscheme="dark"
-		  				data-send="true" data-width="300" data-show-faces="true" data-font="verdana" id = 'fb-like'></div>	
 	
 					<% else %>
 					
@@ -70,10 +72,6 @@
 					  :method => :get, :class => 'btn' %> or
 					  <%= link_to "Sign in", new_user_session_path, :class => 'btn' %>
 					  	
-					  	<div class="g-plusone" data-href="http://www.BoboCal.com"></div>
-					  	<div class="fb-like" data-href="http://www.BoboCal.com" data-colorscheme="dark"
-		  				data-send="true" data-width="300" data-show-faces="true" data-font="verdana" id = 'fb-like'></div>
-	
 					   <br/>
 					  
 				    	<%= link_to "Sign in with Facebook", omniauth_authorize_path(resource_name, 'facebook'),
@@ -81,9 +79,9 @@
 				    	<%= link_to "Sign in with Google", omniauth_authorize_path(resource_name, 'google_oauth2'),
 				    	:class => 'zocial googleplus', :method => :post%>
 			    			    	
-					<% end %>
-					
-		  			<% if user_signed_in? %>
+					<% end %>		  				
+		  				
+			  		<% if user_signed_in? %>
 			  			<% if current_user.has_requests? %>
 			  				<li class = 'btn'><%= link_to "Friend Requests", 
 			  				friend_requests_friendships_path , :method => "get" %></li>
