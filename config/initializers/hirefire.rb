@@ -1,8 +1,9 @@
 HireFire.configure do |config|
-  config.environment      = :heroku # default in production is :heroku. default in development is :noop
-  config.max_workers      = 1   # default is 1
-  config.min_workers      = 0   # default is 0
+  config.max_workers      = 4
   config.job_worker_ratio = [
-      { :jobs => 1,   :workers => 1 }
-    ]
+    { :jobs => 1,   :workers => 1 },
+    { :jobs => 15,  :workers => 2 },
+    { :jobs => 35,  :workers => 3 },
+    { :jobs => 60,  :workers => 4 }
+  ]
 end
