@@ -225,7 +225,7 @@ class User < ActiveRecord::Base
             end
           end
           
-          user.find_events
+          user.delay.find_events
           
           return user
         end    
