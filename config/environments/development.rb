@@ -5,10 +5,6 @@ WebCal::Application.configure do
     Configuration.facebook_secret = '22f53e396cfa5bb714514abf26a3961b'
   end
 
-  ENV['IRON_WORKER_TOKEN'] = 'vDlw5e8mnZfxx4q9NUeSfJMSKFg'
-  ENV['IRON_WORKER_PROJECT_ID'] = '501bd95f0008f202df007609'
-
-
   config.action_mailer.default_url_options = {:host => 'localhost:3000'}
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
