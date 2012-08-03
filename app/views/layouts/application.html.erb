@@ -107,11 +107,15 @@
 						<li><%= link_to "Calendar", calendars_path, :method => 'get', :class => 'btn'%></li>
 					</ul>
 				</div>
-				<div class = 'thumbnails'>
-					<center><%= link_to "Guide to getting started with BoboCal", 
+				<div class = 'thumbnail'>
+					<div class = 'thumbnail'>
+						Bobo Helper
+					</div>
+					<center><%= link_to "Getting started with BoboCal", 
 					alternatives_path, :class => 'btn btn-inverse',:id => 'getting-started'%></center>
-				</div>
-		  	</div>
+					<center><%= link_to "Making an event with BoboCal", 
+					new_alternative_path, :class => 'btn btn-inverse',:id => 'making-event'%></center>									</div>
+		  		</div>
 			<div class = 'span10' >
 				<% if flash[:warning]%>
 					<div class = 'well' id='flash-warning'><h3><%= flash[:warning]%></h3></div>
@@ -141,5 +145,8 @@
 			</div>
 		</div>
 	</div>
+	  <footer>
+        <p>&copy; BoboCal 2012</p>
+      </footer>
 </body>
 </html>
