@@ -13,14 +13,15 @@ class UsersController < ApplicationController
     
     if params[:name]
       @name = params[:name]
-      friends = User.search(@name.downcase)
+      unfiltered_friends = User.search(@name.downcase)
     else 
-      friends = current_user.friends
+      unfiltered_friends = current_user.friends
     end
+    friends = Array.new
     
-    friends.each do |f|
-      unless current_user.friends.include?(f)
-        friends.delete(f)
+    unfiltered_friends.each do |f|
+      if current_user.friends.include?(f)
+        friends.push(f)
       end
     end
     

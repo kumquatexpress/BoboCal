@@ -73,13 +73,19 @@ class EventsController < ApplicationController
     end
   end
   
-  def invite_friend  
-    @name = params[:name]
-
+  def invite_friend     
     if params[:name]
-      friends = User.search(@name.downcase)
+      @name = params[:name]
+      unfiltered_friends = User.search(@name.downcase)
     else 
-      friends = current_user.friends
+      unfiltered_friends = current_user.friends
+    end
+    friends = Array.new
+    
+    unfiltered_friends.each do |f|
+      if current_user.friends.include?(f)
+        friends.push(f)
+      end
     end
     
     if params[:event] != nil
