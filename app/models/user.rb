@@ -260,9 +260,10 @@ class User < ActiveRecord::Base
     if name
       find(:all, :order => ['case when lower(name) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC,' +
         'case when lower(email) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC'],
-      :conditions => ['lower(name) LIKE ? OR lower(email) LIKE ?', "%#{name}%", "%#{name}%"])
+      :conditions => ['lower(name) LIKE ? OR lower(email) LIKE ?', "%#{name}%", "%#{name}%"],
+      :limit => 99)
     else
-      find(:all)
+      find(:all, :limit => 99)
     end
   end
 
