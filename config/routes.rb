@@ -22,6 +22,7 @@ WebCal::Application.routes.draw do
   resources :events do
     collection do
       get :invite_friend, :show_calendar
+      post :add_timeperiods
     end
   end
 

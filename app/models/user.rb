@@ -167,6 +167,7 @@ class User < ActiveRecord::Base
           end
         
           user.delay.find_friends
+          
           return user
         end    
     
@@ -243,7 +244,7 @@ class User < ActiveRecord::Base
     user.token = tokens.token
     user.save
     
-    #user.find_events
+    user.delay.find_events
         
     user
   end

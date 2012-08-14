@@ -1,9 +1,10 @@
 class TimeperiodsController < ApplicationController
-  before_filter lambda{user_is_admin}, :except => [:new, :edit]
+  before_filter lambda{user_owns_this}, :except => :new
   
-  def user_is_admin
-    unless current_user.admin
-      redirect_to new_timeperiod_path
+  def user_owns_this
+    @timeperiod = Timeperiod.find(params[:id])
+    unless @timeperiod.user == current_user
+      redirect_to new_timeperiods_path
     end
   end
   
@@ -33,11 +34,10 @@ class TimeperiodsController < ApplicationController
   # GET /timeperiods/new
   # GET /timeperiods/new.json
   def new
-    @timeperiod = Timeperiod.new
+    @timeperiod = Timeperiod.new(params[:timeperiod])
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @timeperiod }
+      format.js {render :layout=>false}
     end
   end
 
@@ -52,6 +52,7 @@ class TimeperiodsController < ApplicationController
   # POST /timeperiods
   # POST /timeperiods.json
   def create
+    
     @timeperiod = Timeperiod.new(params[:timeperiod])
 
     respond_to do |format|

@@ -40,11 +40,16 @@
 	<div class = 'span6'>
 		<%= f.text_field :endHour, :size => 5, :maxlength => 5 %>
 	</div>
-</div>
-  	<form action = "/events">
+	<form action = "/events">
     <input type = "submit" class = 'btn btn-success' value = "Plan my event" />
     </form>
+</div>
+
 <% end %>
-
-
+<%= link_to "Add a time when you're free", add_timeperiods_events_path(:event => @event), :remote => true, :class=>'btn',
+:method => :post %>
+<div class = 'container-fluid'>
+<div class = 'span6' id='timeperiods-div'></div>
+<div class = 'span6'></div>
+</div>
 

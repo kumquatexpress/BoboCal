@@ -59,6 +59,20 @@ class EventsController < ApplicationController
     end
   end
   
+  def add_timeperiods
+    @timeperiod = Timeperiod.new
+    @timeperiod.user = current_user
+    @timeperiod.save
+    
+    @event = Event.find(params[:event])
+    @event.timeperiods.push(@timeperiod)
+    
+    
+    respond_to do |format|
+      format.js {render :layout => false}
+    end
+  end
+  
   def invite_friend  
     @name = params[:name]
 
@@ -114,28 +128,15 @@ class EventsController < ApplicationController
 
   # GET /events/new
   # GET /events/new.json
-  def new
-    #for calendar display
-    @month = (params[:month] || Time.zone.now.month).to_i
-    @year = (params[:year] || Time.zone.now.year).to_i
-
-    @shown_month = Date.civil(@year, @month)
-
-    @event_strips = Event.event_strips_for_month(@shown_month, :conditions => ['user_id = ?', current_user.id])
-    
-    
-    @calendar = Calendar.all
+  def new    
     @event = Event.new(params[:event])
     @event.user_id = current_user.id
-    @event.invited_users.push(current_user)
+    @event.admin_users.push(current_user)
     @event.save
     
     Event.save_to_google_calendar(@event.id, current_user.id)
     
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @event }
-    end
+    redirect_to edit_event_path(:id => @event.id)
   end
 
   # GET /events/1/edit
@@ -148,11 +149,11 @@ class EventsController < ApplicationController
 
     @event_strips = Event.event_strips_for_month(@shown_month, :conditions => ['user_id = ?', current_user.id])
     
+    #for timeperiod selection
+    @timeperiod = Timeperiod.new
     
     @event = Event.find(params[:id])
     
-    @calendar = Calendar.where(:user_id => 
-    current_user.id)
   end
 
   # POST /events
