@@ -1,5 +1,5 @@
 class Timeperiod < ActiveRecord::Base
-  attr_accessible :time, :user_id, :startDate, :startHour, :endDate, :endHour
+  attr_accessible :time, :user_id, :startDate, :startHour, :endDate, :endHour, :start_at, :end_at
   
   belongs_to :user
   belongs_to :event
