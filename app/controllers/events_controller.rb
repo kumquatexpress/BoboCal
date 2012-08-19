@@ -67,7 +67,6 @@ class EventsController < ApplicationController
     @event = Event.find(params[:event])
     @event.timeperiods.push(@timeperiod)
     
-    
     respond_to do |format|
       format.js {render :layout => false}
     end
@@ -76,18 +75,11 @@ class EventsController < ApplicationController
   def invite_friend     
     if params[:name]
       @name = params[:name]
-      unfiltered_friends = User.search(@name.downcase)
+      friends = User.search_friends(@name.downcase, current_user.id)
     else 
-      unfiltered_friends = current_user.friends
+      friends = current_user.friends
     end
-    friends = Array.new
-    
-    unfiltered_friends.each do |f|
-      if current_user.friends.include?(f)
-        friends.push(f)
-      end
-    end
-    
+
     if params[:event] != nil
       @event = Event.find(params[:event])
     end

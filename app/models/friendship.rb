@@ -16,14 +16,12 @@ class Friendship < ActiveRecord::Base
   
   def make_new(first_user, second_user, approve)
     if Friendship.where(:user_id => first_user.id, :friend_id => second_user.id) == []
-      if Friendship.where(:friend_id => first_user.id, :user_id => second_user.id) == []
         friendship = self
         friendship.user_id = first_user.id
         friendship.friend_id = second_user.id
         friendship.approved = approve
         friendship.ignored = false
         friendship.save
-      end
     end
   end
 

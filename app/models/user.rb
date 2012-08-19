@@ -267,4 +267,17 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.search_friends(name, id)
+    if name
+      find(:all , :from => '"users" inner join "friendships" on "users"."id" = '+
+      '"friendships"."friend_id" ', :order => ['case when lower(name) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC,' +
+        'case when lower(email) LIKE '+ "'" +name+ '%' + "' " + 'then 1 else 0 end DESC'],
+      :conditions => ['"friendships"."user_id" = '+id.to_s()+ ' and lower(name) LIKE ? OR lower(email) LIKE ?', 
+        "%#{name}%", "%#{name}%"],
+      :limit => 99)
+    else
+      find(:all, :from => '"users" inner join "friendships" on "users"."id" = '+
+      '"friendships"."friend_id" ', :conditions => ['"friendships"."user_id" = '+id.to_s()], :limit => 99)
+    end
+  end
 end

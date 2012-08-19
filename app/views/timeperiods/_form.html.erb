@@ -33,4 +33,6 @@
   	<form action = "/timeperiods">
     <input type = "submit" class = 'btn btn-success' value = "Submit new time" />
     </form>
+
+<%= link_to "Delete this time", @timeperiod, :method => :delete, :remote => :true, :class => 'btn'%>
 <% end %>

@@ -22,7 +22,6 @@
 			</th>
 		</tr>
 		<% @users.each do |user| %>
-			<% if user != current_user %>
 			<tr>
 				<td><%= image_tag(user.image_url, :class=>'span4')%></td>
 				<td><%= user.name %></td>
@@ -41,12 +40,12 @@
 				 	form_class = 'add_friend_button'
 				 end 
 				 %>
-				 
-				<td><%= button_to button_title, 
-					friendships_path(:second_id => user.id),
-					:method => "post", :class => button_class, :remote => true, :form_class => form_class %></td>
+				<% if user != current_user %>
+					<td><%= button_to button_title, 
+						friendships_path(:second_id => user.id),
+						:method => "post", :class => button_class, :remote => true, :form_class => form_class %></td>
+				<% end %>
 			</tr>
-			<%end%>
 		<% end %>
 	</table>
 		<div class = 'container-fluid'>

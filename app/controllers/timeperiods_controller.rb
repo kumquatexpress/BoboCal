@@ -2,12 +2,15 @@ class TimeperiodsController < ApplicationController
   before_filter lambda{user_owns_this}, :except => :new
   
   def user_owns_this
-    @timeperiod = Timeperiod.find(params[:id])
-    unless @timeperiod.user == current_user
-      redirect_to new_timeperiods_path
+    if params[:id]
+      @timeperiod = Timeperiod.find(params[:id])
+      if @timeperiod
+        unless @timeperiod.user == current_user
+          redirect_to new_timeperiods_path
+        end
+      end
     end
   end
-  
   
   # GET /timeperiods
   # GET /timeperiods.json
@@ -89,6 +92,7 @@ class TimeperiodsController < ApplicationController
     @timeperiod.destroy
 
     respond_to do |format|
+      format.js {render :layout => false}
       format.html { redirect_to timeperiods_url }
       format.json { head :no_content }
     end

@@ -50,6 +50,10 @@
 :method => :post %>
 <div class = 'container-fluid'>
 <div class = 'span6' id='timeperiods-div'></div>
-<div class = 'span6'></div>
+<div class = 'span6' id ='timelisting-div'>
+	<% if @event.timeperiods.count > 0 %>	
+		<%= render :partial=>'timelisting', :locals => {:times => @event.timeperiods} %>
+	<% end %>
+</div>
 </div>
 
