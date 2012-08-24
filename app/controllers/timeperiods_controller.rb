@@ -72,10 +72,12 @@ class TimeperiodsController < ApplicationController
   # PUT /timeperiods/1
   # PUT /timeperiods/1.json
   def update
+    @event = @timeperiod.event
     @timeperiod = Timeperiod.find(params[:id])
 
     respond_to do |format|
       if @timeperiod.update_attributes(params[:timeperiod])
+        format.js {render :layout => false}
         format.html { redirect_to @timeperiod, :notice => 'Timeperiod was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,8 +90,10 @@ class TimeperiodsController < ApplicationController
   # DELETE /timeperiods/1
   # DELETE /timeperiods/1.json
   def destroy
+    @event = @timeperiod.event
     @timeperiod = Timeperiod.find(params[:id])
     @timeperiod.destroy
+
 
     respond_to do |format|
       format.js {render :layout => false}

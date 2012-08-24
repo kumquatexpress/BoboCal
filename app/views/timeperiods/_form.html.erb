@@ -18,7 +18,7 @@
 	</div>
 	<div class = 'span6'>
 		<em>(hours:minutes)</em> <br/>
-		<%= f.text_field :startHour, :size => 5, :maxlength => 5 %>
+		<%= f.text_field :startHour, :size => 5, :maxlength => 5, :id => 'timeperiod-field' %>
 	</div>
 </div>
 <div class = 'container-fluid'>
@@ -26,12 +26,12 @@
 		<%= f.text_field :endDate, :class => 'datepicker', :size => 10, :maxlength => 10%> 
 	</div>
 	<div class = 'span6'>
-		<%= f.text_field :endHour, :size => 5, :maxlength => 5 %>
+		<%= f.text_field :endHour, :size => 5, :maxlength => 5 , :id => 'timeperiod-field'%>
 	</div>
 </div>
 
   	<form action = "/timeperiods">
-    <input type = "submit" class = 'btn btn-success' value = "Submit new time" />
+    <input type = "submit" class = 'btn btn-success' value = "Submit new time" data-remote="true"/>
     </form>
 
 <%= link_to "Delete this time", @timeperiod, :method => :delete, :remote => :true, :class => 'btn'%>

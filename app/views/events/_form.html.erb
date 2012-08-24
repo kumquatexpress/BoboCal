@@ -46,14 +46,22 @@
 </div>
 
 <% end %>
-<%= link_to "Add a time when you're free", add_timeperiods_events_path(:event => @event), :remote => true, :class=>'btn',
+
+<div class = 'container-fluid thumbnails'>
+	<div class = 'span12 thumbnail'>
+		<center>
+		<%= link_to "Add a time when you're free", add_timeperiods_events_path(:event => @event), :remote => true, :class=>'btn',
 :method => :post %>
-<div class = 'container-fluid'>
-<div class = 'span6' id='timeperiods-div'></div>
-<div class = 'span6' id ='timelisting-div'>
-	<% if @event.timeperiods.count > 0 %>	
-		<%= render :partial=>'timelisting', :locals => {:times => @event.timeperiods} %>
-	<% end %>
+		</center>
+	</div>
 </div>
+<div class = 'container-fluid thumbnails'>
+	<div class = 'span6 thumbnail' id='timeperiods-div'>
+	</div>
+	<div class = 'span6 thumbnail' id ='timelisting-div' style='max-height:250px;overflow:auto'>
+		<% if @event.timeperiods.count > 0 %>	
+			<%= render :partial=>'timelisting', :locals => {:times => @event.timeperiods} %>
+		<% end %>
+	</div>
 </div>
 

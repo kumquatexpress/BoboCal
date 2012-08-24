@@ -2,6 +2,20 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   before_filter :authenticate_user!, :check_correct_user!
+  before_filter :user_owns_event!, :only => [:destroy, :invite_friend]
+  
+  def user_owns_event!
+    if params[:id]
+      @event = Event.find(params[:id])
+      unless @event.user == current_user
+        flash[:warning] = "You don't own that event!"
+        redirect_to edit_event_path(@event)
+      end
+    else
+    flash[:warning] = "You don't own that event!"
+    redirect_to events_path
+    end
+  end
   
   def check_correct_user!
     if params[:id]
@@ -128,8 +142,7 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new    
     @event = Event.new(params[:event])
-    @event.user_id = current_user.id
-    @event.admin_users.push(current_user)
+    @event.user = current_user
     @event.save
     
     Event.save_to_google_calendar(@event.id, current_user.id)

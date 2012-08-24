@@ -1,2 +1,3 @@
 $('#timeperiods-div').html("<%= escape_javascript(render(:partial=>"timeperiods/form")) %>");
-$('#timelisting-div').html("<%= escape_javascript(render(:partial=>"timelisting")) %>");
+$('#timelisting-div').html("<%= escape_javascript(render(:partial=>"timelisting",
+											:locals => {:times => @event.timeperiods} )) %>");
